@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <%= form_tag api_pingan_query_salvation_path, method: :post, class: "form-horizontal", role: "form", id: "aa_cases_query_pingan_salvation_form" do %>
+          <div class="form-body">
+            <%= render "shared/notify_message" %>
+            <h4 class="form-section">接平安单</h4>
+            <div class="form-group">
+              <label class="control-label col-md-1">平安单号</label>
+              <div class="col-md-4">
+                <input type="text" id="salvation_id" name="salvation_id" class="form-control" />
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn">搜索</button>
+                <% if can? :new, AaCase %>
+                <button id="createButton" type="button" class="btn default">创建</button>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <script>
+    jQuery(document).ready(function() {
+      $("#createButton").click(function(){
+        if ($("#salvation_id").val() != ""){
+          var init_data = jQuery.parseJSON('{"data_source":"平安接口", "out_source_no":""}');
+          init_data.out_source_no = $("#salvation_id").val();
+          window.location.href = "/aa_cases/new?init=" + JSON.stringify(init_data);
+        }
+      });
+    });
+  </script>
+<% end %>

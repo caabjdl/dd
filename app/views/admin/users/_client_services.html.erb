@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">修改业务来源</h4>
+</div>
+<%= form_for([:admin, @user], :html => { :class => "form-horizontal" }) do |f| %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label class="control-label col-md-1">业务来源</label>
+            <div class="col-md-11">
+              <%= f.collection_check_boxes(:user_handle_client_service_ids, ClientService.enabled, :id, :name) do |item| %>
+              <div class="col-md-5">
+              <%= item.check_box :class => "form-control" %><%= item.label %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-1"></label>
+            <div class="col-md-11">
+              <input type="checkbox" class="form-control" id="select_all_client_services" /><label for="select_all_client_services">选择全部</label>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">保存</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

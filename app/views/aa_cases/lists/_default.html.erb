@@ -1,0 +1,41 @@
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <%  ['status','no','data_source','out_source_no','connected_at','client_service_name','owner_name','customer_mobile','car_license_no','car_model','from_address'].each do |attr_head|%>
+        <th><%=AaCase.human_attribute_name(attr_head)   %></th>
+      <% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% sources.each do |f| %>
+    <tr class='<%= tr_class(f)   %>'>
+      <td><%= f.status.blank? ? (f.aa_rescue.status if f.aa_rescue) : f.status %></td>
+      <td><%= f.no %></td>
+      <td><%= f.data_source %></td>
+      <td><%= f.out_source_no %></td>
+      <td><%= f.connected_at.strftime('%m-%d %H:%M:%S') if f.connected_at%></td>
+      <td><%= f.client_service_name %></td>
+      <td><%= f.owner.name if f.owner %></td>
+      <td><%= f.customer_mobile %></td>
+      <%= omission_td(6, f.car_license_no) %>
+      <%= omission_td(6, f.car_model) %>
+      <%= omission_td(8, f.from_province, f.from_city, f.from_region, f.from_details) %>
+      <td>
+        <% if can?(:edit, AaRescue) && !f.aa_rescue.nil? %>
+        <%= link_to '查看', edit_aa_rescue_path(id: f.aa_rescue.id), target: f.no %>
+        <% end %>
+        <% if can? :take_owner, AaCase %>
+        <%= link_to '调度', take_owner_aa_case_path(id: f.id), target: f.no, method: "post" %>
+        <% end %>
+        <% if can? :assign, AaCase %>
+        <%= link_to "分配", "#assign", :data => { :toggle => "modal" }, :onclick => "$('#assign_form').attr('action', '#{assign_aa_case_path(f)}'); fillAssignOwners(#{f.id}, $('#user_id'));" %>
+        <% end %>
+        <% if can? :show, AaRescue %>
+        <%= link_to '详情', f.aa_rescue %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

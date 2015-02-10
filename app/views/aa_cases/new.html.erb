@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <%= form_for(@aa_case, :html => { :class => "form-horizontal" }) do |f| %>
+          <div class="form-body">
+            <%= f.error_messages %>
+            <h4 class="form-section">基本信息</h4>
+            <div class="form-group">
+              <%= render "shared/column", :name => (f.label :no), :content => f.c_text_field(:no, :readonly=>'') %>
+              <%= render "shared/column", :name => (f.label :connected_at), :content => f.c_text_field(:connected_at, :readonly => '', :value => (@aa_case.connected_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_case.connected_at.nil?)) %>
+              <%= render "shared/column", :name => (f.label :creater_no), :content => f.c_text_field(:creater_no, :readonly => '') %>
+            </div>
+
+            <div class="form-group">
+              <%=f.hidden_field(:customer_id) %>
+              <%=f.hidden_field(:customer_service_id) %>
+              <%= render "shared/column", :name => "会员号", :content => f.c_text_field(:customer_no) %>
+              <%= render "shared/column", :name => "会员姓名", :content => f.c_text_field(:customer_name) %>
+              <%= render "shared/column", :name => "联系电话", :content => f.c_text_field(:customer_mobile) %>
+            </div>
+
+            <div class="form-group">
+              <%= render "shared/column", :name => "车牌号", :content => f.c_text_field(:car_license_no) %>
+              <%= render "shared/column", :name => "VIN", :content => f.c_text_field(:car_vin) %>
+              <%= render "shared/column", :name => "车辆型号", :content => f.c_text_field(:car_model) %>
+            </div>
+
+            <div class="form-group">
+              <%= render "shared/column", :name => "业务来源", :content => f.select(:client_service_name, current_user.user_handle_client_services.enabled.pluck(:name), {}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "数据来源", :content => f.select(:data_source, OPTIONS["case_data_source"], {}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "外部单号", :content => f.c_text_field(:out_source_no) %>
+            </div>
+
+            <div class="form-group">
+              <%= render "shared/column", :name => "车辆颜色", :content => f.c_text_field(:car_color) %>
+              <%= render "shared/column", :name => "结算对象", :content => f.c_text_field(:customer_account) %>
+              
+            </div>
+            
+            <h4 class="form-section">服务信息</h4>
+            <div class="form-group">
+              <%= render "shared/column", :name => (f.label :rescue_type), :content => f.select(:rescue_type, OPTIONS['rescue_type_actual'].values, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "救援原因", :content => f.select(:rescue_reason, OPTIONS['rescue_reason'].values, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "预约时间", :content => f.c_datetime_field(:appointment_at) %>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-1">补充信息</label>
+              <div class="col-md-11">
+                <%= f.text_area(:memo, :class => "form-control") %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-1">故障地点</label>
+              <div class="col-md-2">
+                <%= f.select(:from_province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= f.select(:from_city, District.cities(@aa_case.from_province), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= f.select(:from_region, District.regions(@aa_case.from_province, @aa_case.from_city), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= f.c_text_field(:from_details) %>
+              </div>
+              <div class="col-md-2">
+                <%= f.c_text_field(:from_coordinate_address) %>
+              </div>
+              <div class="col-md-1">
+                <a id="show_from"  class="btn default">位置</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">拖至地点</label>
+              <div class="col-md-2">
+                <%= f.select(:to_province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-3">
+                <%= f.select(:to_city, District.cities(@aa_case.to_province), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-3">
+                <%= f.select(:to_region, District.regions(@aa_case.to_province, @aa_case.to_city), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= f.c_text_field(:to_details) %>
+              </div>
+              <div class="col-md-1">
+                <a id="show_to" class="btn default">位置</a>
+              </div>
+            </div>
+          <div  class="form-actions right">
+            <button type="submit" class="btn">保存</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_cases" %> 
+<% end %>

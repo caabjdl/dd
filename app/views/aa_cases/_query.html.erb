@@ -1,0 +1,131 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">高级查询</h4>
+</div>
+<%= form_tag path, method: :get, class: "form-horizontal", role: "form", id: "aa_cases_query_form" do %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label  class="col-md-2 control-label">接线于</label>
+            <div class="col-md-4">
+              <div class="input-group date form_datetime">
+                <input type="text" name="created_begin_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+              
+            </div>
+            <label  class="col-md-2 control-label">接线至</label>
+            <div class="col-md-4">
+              <div class="input-group date form_datetime">
+                <input type="text" name="created_end_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">客户来源</label>
+            <div class="col-md-4">
+              <input type="text" name="client_service_name" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">数据来源</label>
+            <div class="col-md-4">
+              <input type="text" name="data_source" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">外部单号</label>
+            <div class="col-md-4">
+              <input type="text" name="out_source_no" class="form-control" />
+            </div>
+            <% if is_query %>
+            <label  class="col-md-2 control-label">调派供应商</label>
+            <div class="col-md-4">
+              <input type="text" name="aa_vendor_name" class="form-control" />
+            </div>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">调度单号</label>
+            <div class="col-md-4">
+              <input type="text" name="no" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">会员卡号</label>
+            <div class="col-md-4">
+              <input type="text" name="customer_no" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <% if is_query %>
+              <label  class="col-md-2 control-label">接单工号</label>
+              <div class="col-md-4">
+                <input type="text" name="owner_no" class="form-control" />
+              </div>
+            <% end %>
+            <label  class="col-md-2 control-label">故障车牌</label>
+            <div class="col-md-4">
+              <input type="text" name="car_license_no" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label  class="col-md-2 control-label">调度车牌</label>
+            <div class="col-md-4">
+              <input type="text" name="trailer_license_no" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">调度状态</label>
+            <div class="col-md-4">
+              <% OPTIONS['case_query_status'].each do |status| %>
+                <%=check_box_tag 'dispatched_flag[]',status %><%=status%>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="form-group">
+          <% if is_query %>
+            <label  class="col-md-2 control-label">调度工号</label>
+            <div class="col-md-4">
+              <input type="text" name="dispatcher_no" class="form-control" />
+            </div>
+          <% end %>
+            <label  class="col-md-2 control-label">客户电话</label>
+            <div class="col-md-4">
+              <input type="text" name="customer_mobile" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label  class="col-md-2 control-label">车辆型号</label> 
+            <div class="col-md-4">
+              <input type="text" name="car_model" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">故障路名</label>
+            <div class="col-md-4">
+              <input type="text" name="address" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">省份</label>
+            <div class="col-md-4">
+              <%=select_tag "from_province",  options_for_select(District.provinces), :class => 'form-control select2me' %>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">查询</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

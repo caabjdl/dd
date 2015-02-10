@@ -1,0 +1,44 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>结算对象</div>
+        <div class="actions">
+          <%= link_to "添加", new_settlement_institution_path, :class => "btn default" %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>来源</th>
+                  <th>结算对象</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @settlement_institutions.each do |f| %>
+                <tr>
+                  <td><%= f.client_service.name %></td>
+                  <td><%= f.name %></td>
+                  <td>
+                    <%= link_to '编辑', edit_settlement_institution_path(f) %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @settlement_institutions %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

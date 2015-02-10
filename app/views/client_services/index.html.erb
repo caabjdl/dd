@@ -1,0 +1,69 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>可调度来源</div>
+        <div class="actions">
+          <% if can? :create, ClientService %>
+          <%= link_to "新来源", new_client_service_path, :class => "btn default" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag client_services_path, :method => 'get', :id => "form_client_services" do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag "查询", :name => nil, :class => 'btn' %>
+                <%= submit_tag '开启自动分配', :name => nil, :id => "enable_auto_assign", :class => 'btn default' %>
+                <%= submit_tag '关闭自动分配', :name => nil, :id => "disable_auto_assign", :class => 'btn default' %>
+                <input type="hidden" id="type" />
+                <input type="hidden" id="ids" />
+                <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token %>" />
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table_client_services">
+              <thead>
+                <tr>
+                  <th class="table-checkbox col-md-1"><input type="checkbox" class="group-checkable" data-set="#table_client_services .checkboxes" /></th>
+                  <th>来源</th>
+                  <th>状态</th>
+                  <th>自动分配</th>
+                  <th>自动发短信</th>
+                  <th>结算对象必填</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @client_services.each do |f| %>
+                <tr>
+                  <td><input type="checkbox" class="checkboxes" value="<%= f.id %>" /></td>
+                  <td><%= f.name %></td>
+                  <td><%= f.disabled ? "禁用" : "启用" %></td>
+                  <td><%= f.can_auto_assign ? "分配" : "不分配" %></td>
+                  <td><%= f.can_send_sms ? '是' : '否' %></td>
+                  <th><%= f.required_customer_account ? "是" : "否" %></th>
+                  <td><%= link_to '编辑', edit_client_service_path(f) %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @client_services %>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "client_services" %> 
+<% end %>

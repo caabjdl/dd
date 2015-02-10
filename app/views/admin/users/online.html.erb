@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>在线状态</div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>账号</th>
+                  <th>姓名</th>
+                  <th>部门</th>
+                  <th>角色</th>
+                  <th>上级</th>
+                  <th>在线状态</th>
+                  <th>连接数</th>
+                  <th>自动分配</th>
+                  <th>最后分配</th>
+                  <th>分配间隔</th>
+                  <th>是否启用</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |f| %>
+                <tr>
+                  <td><%= f.no %></td>
+                  <td><%= f.email %></td>
+                  <td><%= f.name %></td>
+                  <td><%= f.department %></td>
+                  <td><%= f.role %></td>
+                  <td><%= f.manager.name if f.manager %></td>
+                  <td>
+                    <span class="<%= case UserOnlineManager.status_of(f)
+                    when '在线'
+                      "label label-success"
+                    when '离开'
+                      "label label-warning"
+                    when '离线'
+                      "label label-default"
+                    when '繁忙'
+                      "label label-danger"
+                    else 
+                      "label label-default"
+                    end %>" ><%= UserOnlineManager.status_of(f) %></span>
+                  </td>
+                  <td><%= UserOnlineManager.connections_count_of(f) %></td>
+                  <td><%= f.can_auto_assign_to ? "分配" : "不分配" %></td>
+                  <td><%= AutoAssignManager.last_assigned_of(f).strftime('%m-%d %H:%M:%S') unless AutoAssignManager.last_assigned_of(f).nil? %></td>
+                  <td><%= f.auto_assign_interval %></td>
+                  <td><%= f.access_locked? ? "已禁用" : "已启用" %></td>
+                  <td>
+                    <%= link_to '编辑', edit_admin_user_path(f) %>
+                    <%= link_to '离线', offline_admin_user_path(f), :data => { :confirm => "该操作会关闭该用户正在操作的所有页面,确认?" }, :method => :post %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @users %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

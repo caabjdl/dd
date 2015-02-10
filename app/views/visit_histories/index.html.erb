@@ -1,0 +1,53 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>访问日志</div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag visit_histories_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>访问人</th>
+                  <th>ID</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                  <th>时间</th>
+                  <th>URL</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @visit_histories.each do |f| %>
+                <tr>
+                  <td><%= f.user.name unless f.user.nil? %></td>
+                  <td><%= f.item_id %></td>
+                  <td><%= f.item_type %></td>
+                  <td><%= f.action %></td>
+                  <td><%= f.visited_at.strftime('%y-%d-%m %H:%M:%S') %></td>
+                  <%= omission_td(10, f.url) %>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @visit_histories %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<%= form_for(@aa_contract, :html => { :class => "form-horizontal",'data-new' => @aa_contract.new_record? }, :multipart => true) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    
+    
+    <%= f.hidden_field :aa_vendor_id %>
+    <h4 class="form-section col-md-6">合同信息</h4>
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>开始时间</th>
+            <th>截至时间</th>
+            <th>合同类型</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= f.c_text_field(:no) %></td>
+            <td><%= f.c_date_field(:from)%></td>
+            <td>
+              <%= f.c_date_field(:to)%>
+            </td>
+            <td><%= f.select(:contract_type, ['类型A','类型B','类型C'], {}, :class => "form-control select2me") %></td>
+            <td><%= f.select(:status, ['已签','未签','过期'], {}, :class => "form-control select2me") %></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div> 
+
+    <h4 class="form-section col-md-6">附件信息</h4>
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>附件类型</th>
+            <th>附件名称</th>
+            <th>备注</th>
+            <th>附件</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            <%= f.fields_for :aa_contract_attachments do |r| %>
+              <%= render "aa_contract_attachment_fields", :f => r %>
+            <% end %>
+            <tr>
+              <td colspan="5">
+                <%= link_to_add_fields "添加", f, :aa_contract_attachments %>
+                
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div> 
+
+
+  </div>
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>    
+
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_vendors" %> 
+<% end %>

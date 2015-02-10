@@ -1,0 +1,1 @@
+json.extract! @aa_vendor, :id, :no, :name

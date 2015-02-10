@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+
+        <div class="caption"><i class="fa fa-cogs"></i>无供应商任务</div>
+        <div class="actions">
+         
+        </div>
+      </div>
+      <div class="portlet-body">
+        <%= form_tag accounting_aa_cases_path, :method => 'get', :id => "form_accounting" do %>
+          <div class="dataTables_wrapper form-inline" role="grid">
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <div class="dataTables_filter pull-left">
+                  <label>
+                    关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                  </label>
+                  <%= submit_tag "查询", :name => nil, :class => 'btn' %>
+                  <%= link_to "高级查询", "#query", :class => "btn default", :data => { :toggle => "modal" } %>
+                  <%= link_to "导出", export_aa_cases_path(params), :class => "btn default" %>
+                  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token %>" />
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered" id ="table_accounting">
+                <thead>
+                  <tr>
+                   
+                    <%  ['status','实际供应商','no','out_source_no','connected_at','client_service_name','owner_name','customer_mobile','car_license_no','car_model'].each do |attr_head|%>
+                      <th><%=AaCase.human_attribute_name(attr_head)   %></th>
+                    <% end %>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% @aa_cases.each do |f| %>
+                  <tr>
+                    <td><%= f.aa_rescue.status if f.aa_rescue %></td>
+                    <td><%= f.aa_rescue.aa_vendor_name %></td>
+                    <td><%= f.no %></td>
+                    <td><%= f.out_source_no %></td>
+                    <td><%= f.connected_at.strftime('%m-%d %H:%M:%S') if f.connected_at%></td>
+                    <td><%= f.client_service_name %></td>
+                    <td><%= f.owner.name if f.owner %></td>
+                    <td><%= f.customer_mobile %></td>
+                    <%= omission_td(6, f.car_license_no) %>
+                    <%= omission_td(6, f.car_model) %>
+                   
+                    <td>
+                      <% if can?(:edit, AaRescue) && !f.aa_rescue.nil? %>
+                      <%= link_to '查看', edit_aa_rescue_path(id: f.aa_rescue.id), target: f.no %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+              <%= paginate @aa_cases %>
+            </div> 
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="assign"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "/aa_cases/assign" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="modal fade" id="query"  role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-wide">
+      <div class="modal-content">
+        <%= render "/aa_cases/query", :path => accounting_no_vendor_aa_cases_path %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "accounting" %> 
+<% end %>

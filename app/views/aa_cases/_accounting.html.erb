@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">结算对账</h4>
+</div>
+<%= form_tag "", method: :post, class: "form-horizontal", role: "form", id: "accounting_form" do %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label  class="col-md-2 control-label">费用</label>
+            <div class="col-md-10">
+              <input type="text" name="fee" class="form-control">
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">保存</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

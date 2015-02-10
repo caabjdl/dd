@@ -1,0 +1,356 @@
+<% @title = @aa_rescue.aa_case.no.nil? ? nil : @aa_rescue.aa_case.no[-6..-1]  %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <div class="form-horizontal">
+        <div class="form-body">
+
+        <h4 class="form-section">基本信息</h4>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">服务号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('no', @aa_rescue.aa_case.no, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">接线时间</label>
+          <div class="col-md-3">
+          <%= text_field_tag('created_at', (@aa_rescue.aa_case.created_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.aa_case.created_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">接线工号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('creater_no', @aa_rescue.aa_case.creater_no, :class => "form-control", :readonly => '')%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">业务来源</label>
+          <div class="col-md-3">
+            <%= text_field_tag('client_service_name', @aa_rescue.aa_case.client_service_name, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">数据来源</label>
+          <div class="col-md-3">
+            <%= text_field_tag('data_source', @aa_rescue.aa_case.data_source, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">外部单号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('out_source_no', @aa_rescue.aa_case.out_source_no, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">会员号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('customer_no', @aa_rescue.aa_case.customer_no, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">会员姓名</label>
+          <div class="col-md-3">
+            <%= text_field_tag('customer_name', @aa_rescue.aa_case.customer_name, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">会员电话</label>
+          <div class="col-md-3">
+            <%= text_field_tag('customer_mobile', @aa_rescue.aa_case.customer_mobile, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">车牌号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('car_license_no', @aa_rescue.aa_case.car_license_no, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">VIN</label>
+          <div class="col-md-3">
+            <%= text_field_tag('car_vin', @aa_rescue.aa_case.car_vin, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">车辆型号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('car_model', @aa_rescue.aa_case.car_model, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">结算对象</label>
+          <div class="col-md-3">
+            <%= text_field_tag('customer_account', @aa_rescue.aa_case.customer_account, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">补充信息</label>
+          <div class="col-md-11">
+            <%= text_area_tag('memo', @aa_rescue.aa_case.memo, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <h4 class="form-section">调派信息</h4>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">接单时间</label>
+          <div class="col-md-3">
+            <%= text_field_tag('created_at', (@aa_rescue.created_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.created_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">接单工号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('owner_no', @aa_rescue.aa_case.owner_no, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">服务项目</label>
+          <div class="col-md-3">
+            <%= text_field_tag('rescue_type', @aa_rescue.aa_case.rescue_type, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">救援原因</label>
+          <div class="col-md-3">
+            <%= text_field_tag('rescue_reason', @aa_rescue.aa_case.rescue_reason, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">预约时间</label>
+          <div class="col-md-3">
+            <%= text_field_tag('appointment_at', (@aa_rescue.aa_case.appointment_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.aa_case.appointment_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">说明</label>
+          <div class="col-md-11">
+            <%= text_area_tag('memo', @aa_rescue.memo, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">调派供应商</label>
+          <div class="col-md-3">
+            <%= text_field_tag('aa_vendor_id', @aa_rescue.aa_vendor_name, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">参考供应商</label>
+          <div class="col-md-3">
+            <%= text_field_tag('refer_aa_vendor', @aa_rescue.aa_vendor_name, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">实际供应商</label>
+          <div class="col-md-3">
+            <%= text_field_tag('aa_vendor_name', @aa_rescue.aa_vendor_name, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">施救人姓名</label>
+          <div class="col-md-3">
+            <%= text_field_tag('aa_worker_name', @aa_rescue.aa_worker_name, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">施救人电话</label>
+          <div class="col-md-3">
+            <%= text_field_tag('aa_worker_phone', @aa_rescue.aa_worker_phone, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">施救拍照手机</label>
+          <div class="col-md-3">
+            <%= text_field_tag('photo_phone', @aa_rescue.photo_phone, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">故障地点</label>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_from_province', @aa_rescue.aa_case.from_province, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_from_city', @aa_rescue.aa_case.from_city, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_from_region', @aa_rescue.aa_case.from_region, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-4">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_from_details', @aa_rescue.aa_case.from_details, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-1">
+            <a id="show_from" class="btn default">位置</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">拖至地点</label>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_to_province', @aa_rescue.aa_case.to_province, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_to_city', @aa_rescue.aa_case.to_city, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-2">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_to_region', @aa_rescue.aa_case.to_region, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-4">
+            <%= text_field_tag('aa_rescue_aa_case_attributes_to_details', @aa_rescue.aa_case.to_details, :class => "form-control", :readonly => '') %>
+          </div>
+          <div class="col-md-1">
+            <a id="show_to" class="btn default">位置</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">回拨时间</label>
+          <div class="col-md-3">
+            <%= text_field_tag('contacted_at', (@aa_rescue.contacted_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.contacted_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">调派成功</label>
+          <div class="col-md-3">
+            <%= text_field_tag('dispatched_at', (@aa_rescue.dispatched_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.dispatched_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">预计到达</label>
+          <div class="col-md-3">
+            <%= text_field_tag('plan_arrive_at', (@aa_rescue.plan_arrive_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.plan_arrive_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">实际到达</label>
+          <div class="col-md-3">
+            <%= text_field_tag('arrived_at', (@aa_rescue.arrived_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.arrived_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">实际完成</label>
+          <div class="col-md-3">
+            <%= text_field_tag('completed_at', (@aa_rescue.completed_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.completed_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">取消时间</label>
+          <div class="col-md-3">
+            <%= text_field_tag('canceled_at', (@aa_rescue.canceled_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.canceled_at.nil?), :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">取消原因</label>
+          <div class="col-md-3">
+            <%= text_field_tag('cancel_reason', @aa_rescue.cancel_reason, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">调度车牌号</label>
+          <div class="col-md-3">
+            <%= text_field_tag('aa_trailer_license_no', @aa_rescue.aa_trailer_license_no, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">到达里程</label>
+          <div class="col-md-2">
+            <%= text_field_tag('distance_arrive', @aa_rescue.distance_arrive, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">拖车里程</label>
+          <div class="col-md-2">
+            <%= text_field_tag('distance_drag', @aa_rescue.distance_drag, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">空驶里程</label>
+          <div class="col-md-2">
+            <%= text_field_tag('distance_empty_run', @aa_rescue.distance_empty_run, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">返回里程</label>
+          <div class="col-md-2">
+            <%= text_field_tag('distance_back', @aa_rescue.distance_back, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">到达里程图测</label>
+          <div class="col-md-2">
+            <%= text_field_tag('map_range_arrive', @aa_rescue.map_range_arrive, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">拖车里程图测</label>
+          <div class="col-md-2">
+            <%= text_field_tag('map_range_drag', @aa_rescue.map_range_drag, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">空驶里程图测</label>
+          <div class="col-md-2">
+            <%= text_field_tag('map_range_empty_run', @aa_rescue.map_range_empty_run, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">返回里程图测</label>
+          <div class="col-md-2">
+            <%= text_field_tag('map_range_back', @aa_rescue.map_range_back, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">救援费用</label>
+          <div class="col-md-3">
+            <%= text_field_tag('fee', @aa_rescue.fee, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">附加费</label>
+          <div class="col-md-3">
+            <%= text_field_tag('addition_fee', @aa_rescue.addition_fee, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">实际费用</label>
+          <div class="col-md-3">
+            <%= text_field_tag('other_fee', @aa_rescue.other_fee, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">满意度</label>
+          <div class="col-md-3">
+            <%= text_field_tag('satisfaction', @aa_rescue.satisfaction, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <h4 class="form-section">工作日志</h4>
+        <div class="form-group">
+          <label class="control-label col-md-1">类型</label>
+          <div class="col-md-3">
+            <%= text_field_tag('log_type', @aa_rescue.errors.count > 0 ? @aa_rescue.aa_case_logs.last.log_type : @aa_rescue.aa_case_logs.build.log_type, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">工时(分)</label>
+          <div class="col-md-3">
+            <%= text_field_tag('labor', @aa_rescue.errors.count > 0 ? @aa_rescue.aa_case_logs.last.labor : @aa_rescue.aa_case_logs.build.labor, :class => "form-control", :readonly => '') %>
+          </div>
+          <label class="control-label col-md-1">发生时间</label>
+          <div class="col-md-3">
+            <%= text_field_tag('log_at', @aa_rescue.errors.count > 0 ? @aa_rescue.aa_case_logs.last.log_at : @aa_rescue.aa_case_logs.build.log_at, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-1">内容</label>
+          <div class="col-md-11">
+            <%= text_area_tag('log_type', @aa_rescue.errors.count > 0 ? @aa_rescue.aa_case_logs.last.content : @aa_rescue.aa_case_logs.build.content, :class => "form-control", :readonly => '') %>
+          </div>
+        </div>
+
+        </div>
+        </div>
+        
+        <div class="modal fade" id="ajax" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+          <img src="/assets/img/ajax-modal-loading.gif" alt="" class="loading">
+        </div>
+        <h4 class="form-section">工作日志</h4>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+          <tr>
+            <th>创建于</th>
+            <th>记录时间</th>
+            <th>操作者</th>
+            <th>操作者工号</th>
+            <th>类型</th>
+            <th>工时</th>
+            <th>内容</th>
+          </tr>
+          <% @aa_rescue.aa_case_logs.order(log_at: :desc).each do |log| %>
+          <tr>
+            <td width="15%"><%= log.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+            <td width="15%"><%= log.log_at.strftime('%Y-%m-%d %H:%M:%S') if log.log_at%></td>
+            <td width="5%"><%= log.logger.name %></td>
+            <td width="5%"><%= log.logger.no %></td>
+            <td width="10%"><%= log.log_type %></td>
+            <td width="5%"><%= log.labor %>分</td>
+            <td width="45%"><%= log.content %></td>
+          </tr>
+          <% end %>
+          </table>
+        </div>
+        <%= render 'layouts/version',:item => @aa_rescue, :title => '调派信息' %>
+        <%= render 'layouts/version',:item => @aa_rescue.aa_case, :title => '基本信息' %>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_rescues" %> 
+<% end %>

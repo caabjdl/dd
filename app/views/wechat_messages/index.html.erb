@@ -1,0 +1,56 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>微信日志</div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>收发类型</th>
+                  <th>消息类型</th>
+                  <th>发送者</th>
+                  <th>接收者</th>
+                  <th>内容</th>
+                  <th>mediaid</th>
+                  <th>经度</th>
+                  <th>纬度</th>
+                  <th>事件</th>
+                  <th>事件key</th>
+                  <th>创建时间</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @messages.each do |f| %>
+                <tr>
+                  <td><%=f.msg_type =='Response' ? '接收' : '回复' %></td>
+                  <td><%=f.type%></td>
+                  <td><%=f.from_user_name %></td>
+                  <td><%=f.to_user_name %></td>
+                  <td><%=f.content %></td>
+                  <%=omission_td(6,f.media_id)%>
+                  <td><%=f.location_x %></td>
+                  <td><%=f.location_y %></td>
+                  <td><%=f.event %></td>
+                  <td><%=f.event_key %></td>
+                  <td><%= f.created_at.strftime('%y-%d-%m %H:%M:%S') %></td>  
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @messages %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <%= form_for(@district, :html => { :class => "form-horizontal",'data-new' => @district.new_record? }, :multipart=> true) do |f| %>
+        <div class="form-body">
+          <%= f.error_messages %>
+          <h4 class="form-section">行政区域信息</h4>
+          <div class="form-group">
+            <label class="control-label col-md-1">省</label>
+            <div class="col-md-2">
+              <%= f.select(:province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+            </div>
+            <label class="control-label col-md-1">市</label>
+            <div class="col-md-2">
+              <%= f.select(:city, District.cities(@district.province), {}, { :class=>"form-control select2me" }) %>
+            </div>
+            <%= render "shared/column", :name => "区", :content => f.c_text_field(:region) %>
+            
+          </div>
+
+        </div>
+        <div class="form-actions right">
+          <button type="submit" class="btn">保存</button>
+        </div>
+      <% end %>   
+        <!-- END FORM-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "districts" %> 
+<% end %>

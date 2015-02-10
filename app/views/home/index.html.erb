@@ -1,0 +1,8 @@
+<%= render "shared/notify_message" %>
+<%= render "desktop_notify_setting" %>
+<%= link_to "我的任务", mine_aa_cases_path %>
+
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "dashboard" %> 
+<% end %>

@@ -1,0 +1,80 @@
+<script type="text/javascript">
+  function openMap () {
+    window.showModalDialog ('/aa_vendors/map','newwindow','help:no;scroll:no;resizable:no;status:0;dialogWidth:900px;dialogHeight:600px;center:yes') 
+  }
+</script>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>服务商列表</div>
+        <div class="actions">
+          <%= link_to "添加", new_aa_vendor_path, :class => "btn default" %>
+          <a href="#" onclick="openMap();" class="btn default">地图</a>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag aa_vendors_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+                <%= link_to "高级查询", "#query", :class => "btn default", :data => {:toggle => "modal"} %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>公司名称</th>
+                  <th>联络人</th>
+                  <th>职务</th>
+                  <th>电话</th>
+                  <th>24H</th>
+                  <th>传真</th>
+                  <th>邮箱</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @aa_vendors.each do |f| %>
+                <tr>
+                  <td><%= f.name %></td>
+                  <td><%= f.contact %></td>
+                  <td><%= f.contact_position %></td>
+                  <td><%= f.telephone %></td>
+                  <td><%= f.mobile %></td>
+                  <td><%= f.fax %></td>
+                  <td><%= f.email %></td>
+                  <td>
+                    <%= link_to '编辑', edit_aa_vendor_path(f) %>
+                    <%= link_to '合同', aa_contracts_path(:aa_vendor_id => f.id) %>
+                    <%= link_to '创建账号', new_admin_user_path(:account_type => 'vendor', :aa_vendor_id => f.id)%>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @aa_vendors %> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="modal fade" id="query" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-wide">
+      <div class="modal-content">
+        <%= render "/aa_vendors/query" %>
+      </div>
+    </div>
+  </div>
+</div>

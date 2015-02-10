@@ -1,0 +1,5 @@
+<%= render "/aa_cases/index_partial", :path => mine_all_aa_cases_path, :title => "我的所有任务" %>
+<% @title =  "我的所有任务" %>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_cases_mine" %> 
+<% end %>

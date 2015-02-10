@@ -1,0 +1,55 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>车辆列表</div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag cars_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>车主姓名</th>
+                  <th>驾照号码</th>
+                  <th>车架号</th>
+                  <th>车型</th>
+                  <th>发动机号</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @cars.each do |f| %>
+                <tr>
+                  <td><%= f.customer.name unless f.customer.nil? %></td>
+                  <td><%= f.license_no %></td>
+                  <td><%= f.vin %></td>
+                  <td><%= f.car_model %></td>
+                  <th><%= f.ein %></th>
+                  <td>
+                    <%= link_to '编辑', edit_car_path(f) %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @cars %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

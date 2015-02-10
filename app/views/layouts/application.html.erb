@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+  <meta charset="utf-8" />
+  <title><%= @title.nil? ? "" : @title + "--" %>调度平台</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="description" />
+  <meta content="" name="author" />
+  <meta name="MobileOptimized" content="320">
+  <!-- BEGIN GLOBAL MANDATORY STYLES -->          
+  <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/plugins/desktop-notify/notifications.css" rel="stylesheet" type="text/css"/>
+  <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL PLUGIN STYLES --> 
+
+  <!-- END PAGE LEVEL PLUGIN STYLES -->
+  <!-- BEGIN THEME STYLES --> 
+  <link href="/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+  <link href="/assets/css/themes/<%=is_test_app ? "blue.css" : "default.css" %>" rel="stylesheet" type="text/css" id="style_color"/>
+  <link href="/assets/css/custom.css" rel="stylesheet" type="text/css"/>
+
+  <%= yield :page_styles %>
+
+  <!-- END THEME STYLES -->
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <%= csrf_meta_tags %>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed page-sidebar-fixed page-footer-fixed page-sidebar-closed">
+  <!-- BEGIN HEADER -->
+  <div class="header navbar navbar-inverse navbar-fixed-top">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <%= render "layouts/header" %>
+    <!-- END TOP NAVIGATION BAR -->
+  </div>
+  <!-- END HEADER -->
+  <div class="clearfix"></div>
+  <!-- BEGIN CONTAINER -->
+  <div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar navbar-collapse collapse">
+      <!-- BEGIN SIDEBAR MENU -->
+      <%= render "layouts/sidebar" %>
+      <!-- END SIDEBAR MENU -->
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+      <!-- BEGIN PAGE HEADER-->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+          <%= yield :page_title %>
+          <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+      </div>
+      <!-- END PAGE HEADER-->
+      <!-- BEGIN DASHBOARD STATS -->
+
+      <%= yield %>
+    </div>
+    <!-- END PAGE -->
+  </div>
+  <!-- END CONTAINER -->
+  <!-- BEGIN FOOTER -->
+  <div class="footer">
+    <%= render "layouts/footer" %>
+  </div>
+  <!-- END FOOTER -->
+  <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+  <!-- BEGIN CORE PLUGINS -->   
+  <!--[if lt IE 9]>
+  <script src="/assets/plugins/respond.min.js"></script>
+  <script src="/assets/plugins/excanvas.min.js"></script> 
+  <![endif]-->   
+  <script src="/assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>   
+  <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+  <script src="/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript" ></script>
+  <script src="/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>  
+  <script src="/assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+  <script src="/assets/plugins/jquery.timer.js" type="text/javascript"></script>
+  <script src="/assets/plugins/desktop-notify/desktop-notify.js" type="text/javascript"></script>
+  <!-- END CORE PLUGINS -->
+  
+  <%= javascript_include_tag "application" %>
+  <!-- BEGIN PAGE LEVEL PLUGINS -->
+  
+  <!-- END PAGE LEVEL PLUGINS -->
+  <!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+  <!-- END PAGE LEVEL SCRIPTS -->  
+  <script>
+    jQuery(document).ready(function() {
+      App.init();
+    });
+
+    function get_websocket_client(){
+      return new WebSocketRails('<%= request.host %>:3001/websocket');
+    }
+  </script>
+  <%= yield :page_scripts %>
+  <%= javascript_include_tag "status" %>
+  <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

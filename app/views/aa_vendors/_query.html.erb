@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">高级查询</h4>
+</div>
+<%= form_tag aa_vendors_path, method: :get, class: "form-horizontal", role: "form", id: "aa_vendors_query_form" do %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label  class="col-md-1 control-label">省</label>
+            <div class="col-md-3">
+              <%= select_tag(:province, options_for_select(District.provinces), { :class => "form-control select2me" }) %>
+            </div>
+            <label  class="col-md-1 control-label">市</label>
+            <div class="col-md-3">
+              <%= select_tag(:city, nil, { :class => "form-control select2me" }) %>
+
+            </div>
+            <label  class="col-md-1 control-label">区</label>
+            <div class="col-md-3">
+              <%= select_tag(:region, nil, { :class => "form-control select2me" }) %>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">查询</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_vendors" %> 
+<% end %>

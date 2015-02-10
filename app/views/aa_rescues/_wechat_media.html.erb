@@ -1,0 +1,47 @@
+<h4 class="form-section"><%=title%></h4>
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+  <tr>
+    <th>文件名</th>
+    <th>语音识别</th>
+    <th>预览</th>
+    <th>操作</th>
+  </tr>
+  <% item.each do |worker_job| %>
+    <% media = worker_job.wechat_medias  %>
+    <% media.each do |m|%>
+    <tr>
+      <td><%=m.file_type%></td>
+      <td><%=m.format%></td>
+      <td>
+      <% if m.file_type=="image" %>
+        <img src="<%=m.media_file.url%>"  width="200" height="200">
+      <% else %>
+       
+        <EMBED SRC="<%=m.media_file.url%>" HEIGHT="30" WIDTH="200" TYPE="video/quicktime" PLUGINSPAGE="http://www.apple.com/quicktime/download/" autoplay="false">
+          <PARAM NAME="autoplay" VALUE="false" >
+        </EMBED>
+      <% end %>
+      </td>
+      <td>
+        <a href="<%=m.media_file.url%>">下载</a>
+      </td>
+    </tr>
+    <% end %>
+
+    <% worker_job.aa_rescue.aa_rescue_attachments.each do |attachment| %>
+      <tr>
+        <td>image</td>
+        <td></td>
+        <td>
+          <img src="<%=attachment.attachment.url%>"  width="200" height="200">
+        </td>
+        <td>
+          <a href="<%=attachment.attachment.url%>">下载</a>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+
+  </table>
+</div>

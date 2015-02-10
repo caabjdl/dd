@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">修改结算对象</h4>
+</div>
+<%= form_for([:admin, @user], :html => { :class => "form-horizontal" }) do |f| %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label class="control-label col-md-1">结算对象</label>
+            <div class="col-md-11" id="settlements">
+              
+            </div>
+          </div>
+          <div id="settlement_hiddens_div">
+            
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-md-1"></label>
+            <div class="col-md-11">
+              <input type="checkbox" class="form-control" id="select_all_settlements" /><label for="select_all_settlements">选择全部</label>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">保存</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

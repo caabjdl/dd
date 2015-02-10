@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">编号</Data></Cell>
+        <Cell><Data ss:Type="String">序列号</Data></Cell>
+        <Cell><Data ss:Type="String">来源cid</Data></Cell>
+        <Cell><Data ss:Type="String">来源名称</Data></Cell>
+        <Cell><Data ss:Type="String">客户</Data></Cell>
+        <Cell><Data ss:Type="String">牌照</Data></Cell>
+        <Cell><Data ss:Type="String">车架号</Data></Cell>
+        <Cell><Data ss:Type="String">保险生效时间</Data></Cell>
+        <Cell><Data ss:Type="String">保险到期时间</Data></Cell>
+        <Cell><Data ss:Type="String">保障期限</Data></Cell>
+        <Cell><Data ss:Type="String">提交时间</Data></Cell>
+        <Cell><Data ss:Type="String">更新时间</Data></Cell>
+      </Row>
+    <% models.each do |f| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%=f.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.no %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.client.no if f.client %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.client.name if f.client %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.driver_license_no%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.cars.first.vin if f.cars.first%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.customer_services.first.begin.strftime("%Y年%m月%d日") if f.customer_services.first && f.customer_services.first.begin%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.customer_services.first.end.strftime("%Y年%m月%d日") if f.customer_services.first && f.customer_services.first.end%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=((f.customer_services.first.end-f.customer_services.first.begin)/(3600*24)+1).round if f.customer_services.first%>天</Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.created_at.strftime("%Y年%m月%d日 %H:%M:%S")%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=f.updated_at.strftime("%Y年%m月%d日 %H:%M:%S")%></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

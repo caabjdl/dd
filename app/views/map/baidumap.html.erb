@@ -1,0 +1,150 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=09f24306fde8dd0f7e73a3f977c2c584"></script>
+<title>根据起终点名称驾车导航</title>
+</head>
+<body>
+<div id="allmap" style="width:75%;height:800px;float:left"></div>
+<div id="panel" style="width:20%;float:left"></div>
+<div><input type="button" onclick="driveSearch();" value="RUNStarts"></div>
+<div id="control">
+    <div style="padding:5px;font-size:12px;line-height:18px;">
+        使用javacript api<b>1.4</b>的版本，开启编辑后会一直显示可编辑的点。
+    </div>
+    <button onclick = "ply.enableEditing()">开启编辑功能</button>
+    <button onclick = "ply.disableEditing()">关闭编辑功能</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+var map = new BMap.Map("allmap");
+map.centerAndZoom(new BMap.Point(<%=@start%>, <%=@end%>), 11);
+map.enableDragging();
+map.enableScrollWheelZoom();
+var gc = new BMap.Geocoder();
+buildContextMenu();
+
+
+p_start = new BMap.Point(<%=@start%>, <%=@end%>);
+p_end = new BMap.Point(<%=@start1%>, <%=@end1%>);
+
+function buildContextMenu(){  
+    var contextMenu  = new BMap.ContextMenu();  
+    var txtMenuItem = [  
+      {  
+       text:'起点',  
+       callback:function(p){
+          //添加起始点标注
+       	 var marker = new BMap.Marker(p), px = map.pointToPixel(p);
+         map.addOverlay(marker);
+         //允许拖拽
+         marker.enableDragging();
+         //监听拖拽完毕事件
+         marker.addEventListener("dragend", function(result)
+         {
+            p_start = result.point;
+            //地址解析
+            gc.getLocation(p_start, function(rs){
+              var addComp = rs.addressComponents;
+              alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+                  });        
+            });
+            p_start = p;
+         }  
+      },  
+      {  
+       text:'终点',  
+       callback:function(p){
+          var marker = new BMap.Marker(p), px = map.pointToPixel(p);
+          map.addOverlay(marker);
+          marker.enableDragging();
+          marker.addEventListener("dragend", function(result)
+          {
+            p_end = result.point;
+          });
+          
+          p_end = p;
+        }  
+      }, 
+      {  
+       text:'清除',  
+       callback:function(){ map.clearOverlays();}  
+      },   
+      {  
+       text:'放大',  
+       callback:function(){map.zoomIn();}  
+      },  
+      {  
+       text:'缩小',  
+       callback:function(){map.zoomOut();}  
+      }
+     ];  
+  
+    for(var i=0; i < txtMenuItem.length; i++){  
+        contextMenu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));  
+        if(i==1 || i==3) {  
+            contextMenu.addSeparator();  
+        }  
+    }  
+    map.addContextMenu(contextMenu);  
+} 
+
+function driveSearch()
+{
+    map.clearOverlays();
+    var driving = new BMap.DrivingRoute(map, {
+      renderOptions:{
+        map: map, 
+        autoViewport: true,
+        panel: 'panel',
+        enableDragging: true
+      },
+      onSearchComplete:function(results){
+        if (driving.getStatus() == BMAP_STATUS_SUCCESS && results.getNumPlans() > 0) {
+                //alert(results.getPlan(0).getDistance())
+                p_start = results.getStart().point;
+                p_end = results.getEnd().point;
+            }
+      }
+    });
+    driving.search(p_start, p_end);
+} 
+
+gc.getPoint("北京市海淀区上地10街", function(point){
+  if (point) {
+    map.centerAndZoom(point, 16);
+    map.addOverlay(new BMap.Marker(point));
+  }
+}, "北京市");
+
+// 百度地图API功能
+
+// var ply;
+// function getBoundary(){      
+//     var bdary = new BMap.Boundary();
+
+
+//     bdary.get("静安区", function(rs){       //获取行政区域
+//         map.clearOverlays();        //清除地图覆盖物       
+//         var count = rs.boundaries.length; //行政区域的点有多少个
+//         console.log(count);
+//         for(var i = 0; i < count; i++){
+//             console.log('a');
+//             console.log(rs.boundaries[i].length);
+//             ply = new BMap.Polygon(rs.boundaries[i], {strokeWeight: 2, strokeColor: "#ff0000"}); //建立多边形覆盖物
+//             map.addOverlay(ply);  //添加覆盖物
+//             map.setViewport(ply.getPath());    //调整视野         
+//         }                
+//         ply.enableEditing();  //开启线编辑功能
+//     });   
+// }
+
+// setTimeout(function(){
+//     getBoundary();
+// }, 500);
+
+</script>

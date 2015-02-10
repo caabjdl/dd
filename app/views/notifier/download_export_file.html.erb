@@ -1,0 +1,5 @@
+您好!调度任务数据已导出,请查看</p>
+导出时间:<%=@export_file.created_at.strftime('%m-%d %H:%M:%S')%></p>
+导出天数:<%=OPTIONS["aa_cases_export_day"]%></p>
+下载链接:<%= url_for :controller => 'export_files', :action => 'download', :id => @export_file.id, :only_path => false %>
+

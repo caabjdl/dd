@@ -1,0 +1,183 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+<title>驾车导航查询</title> 
+<style>
+body{ margin:0; padding:0;font:12px/16px Verdana, Helvetica, Arial, sans-serif;}
+</style>
+<script language="javascript" src="http://webapi.amap.com/maps?v=1.2&key=555bbef533016d366ca75e8aa5bd5160"></script>  
+<script language="javascript">   
+function routeSearch() {
+	this.routeSType = "s"; //起始点  
+	this.cityname = "";
+	this.start_x = "";
+	this.start_y = "";
+	this.start_name = "";
+	this.start_address = "";
+	this.start_tel = "";
+	this.start_pid = "";
+	this.start_citycode = "";
+	this.start_cityname = "";
+	this.start_detailLink = "";
+	this.start_type = "";
+	this.end_x = "";
+	this.end_y = "";
+	this.end_name = "";
+	this.end_address = "";
+	this.end_tel = "";
+	this.end_pid = "";
+	this.end_citycode = "";
+	this.end_cityname = "";
+	this.end_detailLink = "";
+	this.end_type = "";
+	this.x_array;
+	this.y_array;
+	this.x_c_array;
+	this.y_c_array;
+	this.xy_array;
+	this.xy_c_array;
+	this.start_marker;
+	this.end_marker;
+	this.line;
+	this.current_section;
+}
+var routeS = new routeSearch();
+
+function mapInit() {
+	var opt = {
+		level: 13,
+		center: new AMap.LngLat(116.397428, 39.90923),
+		doubleClickZoom: true,
+		scrollWheel: true
+	}
+	mapObj = new AMap.Map("iCenter", opt);
+	AMap.Conf.network = 1;
+	mapObj.plugin(["AMap.ToolBar", "AMap.OverView", "AMap.Scale"], function() {
+		toolbar = new AMap.ToolBar();
+		toolbar.autoPosition = false;
+		mapObj.addControl(toolbar);
+		overview = new AMap.OverView();
+		mapObj.addControl(overview);
+		scale = new AMap.Scale();
+		mapObj.addControl(scale);
+	});
+	
+	routeChangeSearchXY();
+}
+
+
+function routeChangeSearchXY() {
+	var startXY = new AMap.LngLat(<%=@start%>, <%=@end%>);
+	var endXY = new AMap.LngLat(<%=@start1%>, <%=@end1%>);
+	var routeSearchOption = {
+		routeType: 1
+	};
+	var arr = new Array(); //经纬度坐标数组     
+	arr.push(startXY);
+	arr.push(endXY);
+	var routeSearch = new AMap.RouteSearch(routeSearchOption);
+	routeSearch.getNaviPath(arr, routeChangeSearchXY_CallBack);
+}
+
+function callback (data) {
+	alert(data);
+}
+
+function routeChangeSearchXY_CallBack(data) {
+
+
+	var resultStr = "";
+	var route_count = data.count;
+	var road_length = 0;
+	if (data.status == "E0") {
+
+		var overlays = ['start_marker', 'end_marker', 'line', 'current_section'];
+		for (var i = 0; i < overlays.length; i++) {
+			if (routeS[overlays[i]]) {
+				routeS[overlays[i]].setMap(null);
+				routeS[overlays[i]] = null;
+			}
+		}
+
+		var route_text = "";
+		var route_length = "";
+		var route_content = new Array();
+		routeS.xy_array = new Array();
+		var arr = new Array();
+		for (var i = 0; i < route_count; i++) {
+
+			routeS.xy_array[i] = data.list[i].coor; //每条线路的坐标
+
+			if (i == 0) {
+				route_text += "<tr id=\"tr_" + i + "\" onMouseover=\"driveLineDrawFoldline('" + i + "','" + route_count + "')\"  onMouseout=\"this.style.backgroundColor='';\" onclick=\"driveLineDrawFoldline_click('" + i + "','" + route_count + "')\"><td align=\"left\">" + (i + 1) + ". " + "<span class=\"gray\">沿</span><strong>" + data.list[i].roadName + "</strong>向<strong>" + data.list[i].direction + "</strong><span class=\"gray\">行驶</span>" + " " + data.list[i].roadLength + "</td></tr>";
+			} else {
+				route_text += "<tr id=\"tr_" + i + "\" onMouseover=\"driveLineDrawFoldline('" + i + "','" + route_count + "')\"  onMouseout=\"this.style.backgroundColor='';\" onclick=\"driveLineDrawFoldline_click('" + i + "','" + route_count + "')\"><td align=\"left\">" + (i + 1) + ". " + "<strong>" + data.list[i - 1].action + "</strong>" + "<span class=\"gray\">进入</span><strong>" + data.list[i].roadName + "</strong>向<strong>" + data.list[i].direction + "</strong><span class=\"gray\">行驶</span>" + " " + data.list[i].roadLength + " " + "</td></tr>";
+			}
+
+
+
+			var allover = new Array();
+
+			var poi_xy_r = data.list[i].coor.split(";");
+
+
+			for (var j = 0; j < poi_xy_r.length; j++) {
+				var arr_lnglat = new Array();
+				arr_lnglat = poi_xy_r[j].split(",");
+				arr.push(new AMap.LngLat(arr_lnglat[0], arr_lnglat[1]));
+			}
+
+		}
+
+		routeS.line = new AMap.Polyline({
+			map: mapObj,
+			path: arr,
+			strokeColor: "#003366",
+			strokeOpacity: 0.8,
+			strokeWeight: 4,
+			strokeDasharray: [10, 5]
+		});
+
+
+		var start = new AMap.LngLat(<%=@start%>, <%=@end%>);
+
+		routeS.start_marker = new AMap.Marker({
+			map: mapObj,
+			position: start,
+			icon: "http://webapi.amap.com/images/qd.png",
+			offset: new AMap.Pixel(-15, -36)
+		});
+
+
+
+		var end = new AMap.LngLat(<%=@start1%>, <%=@end1%>);
+
+		routeS.end_marker = new AMap.Marker({
+			map: mapObj,
+			position: end,
+			icon: "http://webapi.amap.com/images/zd.png",
+			offset: new AMap.Pixel(-15, -36)
+		});
+
+
+		mapObj.setFitView();
+		route_content.push("<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" ><tr><td style=\"background:#e1e1e1;\">路线</td></tr><tr><td><img src=\"http://code.mapabc.com/images/start.gif\" />起点：" + routeS.start_name + "</td></tr>" + route_text + "<tr><td><img src=\"http://code.mapabc.com/images/end.gif\" />终点：" + routeS.end_name + "</td></tr></table>");
+
+		resultStr = route_content.join("");
+
+	} else if (data.status != E0) {
+
+		resultStr = "没有找到搜索结果,请确保关键字是否正确。";
+	}
+	document.getElementById("result").innerHTML = resultStr;
+}
+
+</script>  
+</head>
+
+<body onload="mapInit();">
+	<div id="iCenter" style="height:800px; width:75%;float:left"> </div>
+	<div id="result" style="width:20%;float:left"> </div>
+</body>  
+</html>

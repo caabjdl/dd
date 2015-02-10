@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>平安接口日志</div>
+        <div class="actions">
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>动作</th>
+                  <th>数据</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @aa_case.pingan_api_salvation_query_ins.each do |item| %>
+                <tr>
+                  <td><%= item.salvation_query_out.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>接平安单</td>
+                  <td>
+                    <%= render "pingan_api/salvation_query_out", :item => item.salvation_query_out %>
+                  </td>
+                <tr>
+                <tr>
+                  <td><%= item.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>服务器响应</td>
+                  <td>
+                    <%= render "pingan_api/salvation_query_in", :item => item %>
+                  </td>
+                </tr>
+              <% end %>
+              <% @aa_case.pingan_api_salvation_ins.each do |item| %>
+                <tr>
+                  <td><%= item.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>平安推送</td>
+                  <td>
+                    <%= render "pingan_api/salvation_in", :item => item %>
+                  </td>
+                </tr>
+                <% if item.salvation_out.nil? %>
+                <tr>
+                  <td colspan="3">服务器没有响应</td>
+                <tr>
+                <% else %>
+                <tr>
+                  <td><%= item.salvation_out.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>服务器响应</td>
+                  <td>
+                    <%= render "pingan_api/salvation_out", :item => item.salvation_out %>
+                  </td>
+                <tr>
+                <% end %>
+              <% end %>
+              <% @aa_case.pingan_api_operation_outs.each do |item| %>
+                <tr>
+                  <td><%= item.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>回传操作</td>
+                  <td>
+                    <%= render "pingan_api/operation_out", :item => item %>
+                  </td>
+                </tr>
+                <% if item.operation_in.nil? %>
+                <tr>
+                  <td colspan="3">对方没有响应</td>
+                <tr>
+                <% else %>
+                <tr>
+                  <td><%= item.operation_in.created_at.strftime('%m-%d %H:%M:%S') %></td>
+                  <td>对方响应</td>
+                  <td>
+                    <%= render "pingan_api/operation_in", :item => item.operation_in %>
+                  </td>
+                <tr>
+                <% end %>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

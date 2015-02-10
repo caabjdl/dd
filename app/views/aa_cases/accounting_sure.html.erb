@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+
+        <div class="caption"><i class="fa fa-cogs"></i>批量生成结算对账列表(调派供应商与实际供应商一致)</div>
+        <div class="actions">
+         
+        </div>
+      </div>
+      <div class="portlet-body">
+        <%= form_tag accounting_aa_cases_path, :method => 'get', :id => "form_accounting" do %>
+          <div class="dataTables_wrapper form-inline" role="grid">
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <div class="dataTables_filter pull-left">
+                  <label>
+                    关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                  </label>
+                  <%= submit_tag "查询", :name => nil, :class => 'btn' %>
+                  <%= link_to "高级查询", "#query", :class => "btn default", :data => { :toggle => "modal" } %>
+                  <%= submit_tag '批量保存', :name => nil, :id => "create_btn", :class => 'btn default' %>
+                  <%= link_to "导出", export_aa_cases_path(params), :class => "btn default" %>
+                  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token %>" />
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered" id ="table_accounting">
+                <thead>
+                  <tr>
+                   
+                    <%  ['status','调派供应商','no','connected_at','client_service_name','owner_name','customer_mobile','到达','拖车','返回','总','空驶','一口价','结算金额','参考金额','car_license_no','car_model'].each do |attr_head|%>
+                      <th><%=AaCase.human_attribute_name(attr_head)   %></th>
+                    <% end %>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% @aa_cases.each do |f| %>
+                  <tr>
+                    
+                    <td><%= f.aa_rescue.status if f.aa_rescue %></td>
+                    <%= omission_td(6, (f.aa_rescue.aa_vendor.name if f.aa_rescue && f.aa_rescue.aa_vendor)) %>
+                    <td><%= f.no %></td>
+                    <td><%= f.connected_at.strftime('%m-%d %H:%M:%S') if f.connected_at%></td>
+                    <td><%= f.client_service_name %></td>
+                    <td><%= f.owner.name if f.owner %></td>
+                    <td><%= f.customer_mobile %></td>
+                    <td><%= f.aa_rescue.distance_arrive %></td>
+                    <td><%= f.aa_rescue.distance_drag %></td>
+                    <td><%= f.aa_rescue.distance_back %></td>
+                    <td><%= f.aa_rescue.distance_arrive.to_f+f.aa_rescue.distance_drag.to_f+f.aa_rescue.distance_back.to_f %></td>
+                    <td><%= f.aa_rescue.distance_empty_run %></td>
+                    <td>
+                      <input type="checkbox" class="checkboxes" value="<%= f.id %>" name="accountings[<%=f.id%>][type]" />
+                    </td>
+                    <td>
+                      <input type="text" id="fee_<%= f.id %>" style="width:60px" />
+                    </td>
+                    
+                    <input id="once_price_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.once_price %>" />
+                    <input id="accounting_price_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.accounting_price %>" />
+                    <input id="distance_arrive_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.distance_arrive %>" />
+                    <input id="distance_drag_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.distance_drag %>" />
+                    <input id="distance_back_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.distance_back %>" />
+                    <input id="distance_empty_run_<%= f.id %>" type="hidden" value="<%= f.aa_rescue.distance_empty_run %>" />
+                    
+                    <td><%=f.aa_rescue.accounting_price %></td>
+                    <%= omission_td(6, f.car_license_no) %>
+                    <%= omission_td(6, f.car_model) %>
+                    <td>
+                      <% if can?(:edit, AaRescue) && !f.aa_rescue.nil? %>
+                      <%= link_to '查看', edit_aa_rescue_path(id: f.aa_rescue.id), target: f.no %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+              <%= paginate @aa_cases %>
+            </div> 
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="assign"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "/aa_cases/assign" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="modal fade" id="query"  role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-wide">
+      <div class="modal-content">
+        <%= render "/aa_cases/query", :path => accounting_sure_aa_cases_path %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "accounting" %> 
+<% end %>

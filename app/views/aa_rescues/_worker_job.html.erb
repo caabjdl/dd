@@ -1,0 +1,35 @@
+<h4 class="form-section"><%=title%></h4>
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+  <tr>
+    <th>状态</th>
+    <th>所属者(工号/姓名)</th>
+    <th>出发时间</th>
+    <th>到达时间</th>
+    <th>完成时间</th>
+    <th>取消时间</th>
+    <th>测距(米)</th>
+    <th>是否禁用</th>
+    <th>轨迹</th>
+  </tr>
+  <% item.worker_jobs.each do |worker_job| %>
+  <tr>
+    <td><%= worker_job.status %></td>
+    <td><%= worker_job.owner.no if  worker_job.owner %>/<%= worker_job.owner.name if  worker_job.owner %></td>
+    <td><%= worker_job.departed_at.strftime('%Y-%m-%d %H:%M:%S') if worker_job.departed_at%></td>
+    <!-- <td><%= worker_job.mileage_depart %></td> -->
+    <td><%= worker_job.arrived_at.strftime('%Y-%m-%d %H:%M:%S') if worker_job.arrived_at %></td>
+    <!-- <td><%= worker_job.mileage_arrive %></td> -->
+    <td><%= worker_job.completed_at.strftime('%Y-%m-%d %H:%M:%S') if worker_job.completed_at%></td>
+    <!-- <td><%= worker_job.mileage_complete %></td> -->
+    <td><%= worker_job.canceled_at.strftime('%Y-%m-%d %H:%M:%S') if worker_job.canceled_at %></td>
+    <td><%= worker_job.total_distance %></td>
+    <!-- <td><%= worker_job.mileage_cancel %></td> -->
+    <td><%= worker_job.disabled_at.nil? ? '启用' :  '禁用' %></td>
+    <td>
+    <%=link_to '轨迹(仅供参考)', worker_tracking_aa_rescue_path(worker_job) if worker_job.wechat_locations.length>0%>
+    </td>
+  </tr>
+  <% end %>
+  </table>
+</div>

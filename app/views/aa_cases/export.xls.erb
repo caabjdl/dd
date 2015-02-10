@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+    <Styles>  
+        <Style ss:ID="red">  
+           <Interior ss:Color="#FF0000" ss:Pattern="Solid"/> 
+        </Style>  
+    </Styles>  
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">接单号</Data></Cell>
+        <Cell><Data ss:Type="String">会员号</Data></Cell>
+        <Cell><Data ss:Type="String">创建日期</Data></Cell>
+        <Cell><Data ss:Type="String">创建时间</Data></Cell>
+        <Cell><Data ss:Type="String">最后更新日期</Data></Cell>
+        <Cell><Data ss:Type="String">最后更新时间</Data></Cell>
+        <Cell><Data ss:Type="String">结算对象</Data></Cell>
+        <Cell><Data ss:Type="String">平安结算机构</Data></Cell>
+        <Cell><Data ss:Type="String">外部单号</Data></Cell>
+        <Cell><Data ss:Type="String">所属公司</Data></Cell>
+        <Cell><Data ss:Type="String">调度工号</Data></Cell>
+        <Cell><Data ss:Type="String">客户姓名</Data></Cell>
+        <Cell><Data ss:Type="String">联系电话</Data></Cell>
+        <Cell><Data ss:Type="String">车牌号码</Data></Cell>
+        <Cell><Data ss:Type="String">VIN</Data></Cell>
+        <Cell><Data ss:Type="String">车辆型号</Data></Cell>
+        <Cell><Data ss:Type="String">实际施救人</Data></Cell>
+        <Cell><Data ss:Type="String">故障省</Data></Cell>
+        <Cell><Data ss:Type="String">故障市</Data></Cell>
+        <Cell><Data ss:Type="String">故障区</Data></Cell>
+        <Cell><Data ss:Type="String">故障地址</Data></Cell>
+        <Cell><Data ss:Type="String">原始申请项目</Data></Cell>
+        <Cell><Data ss:Type="String">申请项目</Data></Cell>
+        <Cell><Data ss:Type="String">车辆发车时间</Data></Cell>
+        <Cell><Data ss:Type="String">预计到达时间</Data></Cell>
+        <Cell><Data ss:Type="String">车辆到达时间</Data></Cell>
+        <Cell><Data ss:Type="String">任务完成日期</Data></Cell>
+        <Cell><Data ss:Type="String">任务完成时间</Data></Cell>
+        <Cell><Data ss:Type="String">任务取消时间</Data></Cell>
+        <Cell><Data ss:Type="String">拖至地点</Data></Cell>
+        <Cell><Data ss:Type="String">到达里程</Data></Cell>
+        <Cell><Data ss:Type="String">拖车里程</Data></Cell>
+        <Cell><Data ss:Type="String">返回里程</Data></Cell>
+        <Cell><Data ss:Type="String">总里程</Data></Cell>
+        <Cell><Data ss:Type="String">空驶里程</Data></Cell>
+        <Cell><Data ss:Type="String">服务类型</Data></Cell>
+        <Cell><Data ss:Type="String">完成状态</Data></Cell>
+        <Cell><Data ss:Type="String">完成情况</Data></Cell>
+        <Cell><Data ss:Type="String">取消原因</Data></Cell>
+        <Cell><Data ss:Type="String">救援供应商</Data></Cell>
+        <Cell><Data ss:Type="String">救援起步价</Data></Cell>
+        <Cell><Data ss:Type="String">救援含公里数</Data></Cell>
+        <Cell><Data ss:Type="String">救援每公里</Data></Cell>
+        <Cell><Data ss:Type="String">拖车起步价</Data></Cell>
+        <Cell><Data ss:Type="String">拖车含公里数</Data></Cell>
+        <Cell><Data ss:Type="String">拖车每公里</Data></Cell>
+        <Cell><Data ss:Type="String">附加费</Data></Cell>
+        <Cell><Data ss:Type="String">实际费用</Data></Cell>
+        <Cell><Data ss:Type="String">接线备注</Data></Cell>
+        <Cell><Data ss:Type="String">调度备注</Data></Cell>
+        <Cell><Data ss:Type="String">调度车牌号码</Data></Cell>
+        <Cell><Data ss:Type="String">满意度</Data></Cell>
+        <Cell><Data ss:Type="String">工作日志</Data></Cell>
+      </Row>
+      <% models.each do |aa_case| %>
+      <Row <%="ss:StyleID='red'" if aa_case.is_updated_by_date %> >
+        <Cell><Data ss:Type="String"><%= aa_case.no %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.customer_no %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.created_at.strftime('%Y-%m-%d') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.created_at.strftime('%Y-%m-%d %H:%M:%S') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.updated_at.strftime('%Y-%m-%d') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.updated_at.strftime('%Y-%m-%d %H:%M:%S') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.customer_account %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.dep_code_convert %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.out_source_no %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.client_service_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.owner.no if aa_case.owner %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.customer_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.customer_mobile %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.car_license_no %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.car_vin %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.car_model %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_worker_name if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.from_province %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.from_city %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.from_region %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.from_details %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.versions[1].reify.rescue_type if aa_case.versions[1] && aa_case.versions[1].reify%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.rescue_type %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.dispatched_at.strftime('%Y-%m-%d %H:%M:%S') if aa_case.aa_rescue && aa_case.aa_rescue.dispatched_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.plan_arrive_at.strftime('%Y-%m-%d %H:%M:%S') if aa_case.aa_rescue && aa_case.aa_rescue.plan_arrive_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.arrived_at.strftime('%Y-%m-%d %H:%M:%S') if aa_case.aa_rescue && aa_case.aa_rescue.arrived_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.completed_at.strftime('%Y-%m-%d') if aa_case.aa_rescue && aa_case.aa_rescue.completed_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.completed_at.strftime('%Y-%m-%d %H:%M:%S') if aa_case.aa_rescue && aa_case.aa_rescue.completed_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.canceled_at.strftime('%Y-%m-%d %H:%M:%S') if aa_case.aa_rescue && aa_case.aa_rescue.canceled_at %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.to_details %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.distance_arrive if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.distance_drag if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.distance_back if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.distance_arrive.to_f+aa_case.aa_rescue.distance_drag.to_f+aa_case.aa_rescue.distance_back.to_f if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.distance_empty_run if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.rescue_reason %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue && aa_case.aa_rescue.status.blank? ? aa_case.aa_rescue.status : aa_case.status %></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.cancel_reason if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor_name if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.rescue_base_fare if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.rescue_include_kilometers if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.rescue_unit_price if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.trail_base_fare if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.trail_include_kilometers if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_vendor.trail_unit_price if aa_case.aa_rescue && aa_case.aa_rescue.aa_vendor%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.addition_fee if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.other_fee if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.memo %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.memo if aa_case.aa_rescue %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.aa_trailer_license_no if aa_case.aa_rescue %></Data></Cell>
+         <Cell><Data ss:Type="String"><%= aa_case.aa_rescue.satisfaction if aa_case.aa_rescue%></Data></Cell>
+        <Cell><Data ss:Type="String"><% aa_case.aa_case_logs.order(log_at: :asc).each do |log|  %>{   <%=log.log_at.strftime('%Y-%m-%d %H:%M:%S') %> / <%=log.content.gsub(/\r?\n/,'').gsub(/<|>/,"") %>  }<% end %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

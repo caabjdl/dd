@@ -1,0 +1,169 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+
+        <!-- BEGIN FORM-->
+        <%= form_for(@accounting_job, :html => { :class => "form-horizontal" }) do |f| %>
+          <div class="form-body">
+            
+            <%= f.error_messages %>
+            <% if @accounting_job.aa_case %>
+            <h4 class="form-section">基本信息</h4>
+            <div class="form-group">
+              <%= render "shared/column", :name => "服务号", :content => text_field_tag(:no,@accounting_job.aa_case.no, :class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "接线时间", :content => text_field_tag(:connected_at,@accounting_job.aa_case.connected_at.strftime('%Y-%m-%d %H:%M:%S'),:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "接线工号", :content => text_field_tag(:user_no,@accounting_job.aa_case.creater_no,:class => 'form-control',:readonly => '') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "业务来源", :content => text_field_tag(:client_service_name,@accounting_job.aa_case.client_service_name,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "数据来源", :content => text_field_tag(:data_source,@accounting_job.aa_case.data_source,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "外部单号", :content => text_field_tag(:out_source_no,@accounting_job.aa_case.out_source_no,:class => 'form-control',:readonly => '') %>
+            </div>
+              
+            <div class="form-group">
+              <%= render "shared/column", :name => "会员号",:content => text_field_tag(:customer_no,@accounting_job.aa_case.customer_no,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "会员姓名", :content => text_field_tag(:customer_name,@accounting_job.aa_case.customer_name,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "会员电话", :content => text_field_tag(:customer_mobile,@accounting_job.aa_case.customer_mobile,:class => 'form-control',:readonly => '') %>
+            </div>
+            
+            <div class="form-group">
+              <%= render "shared/column", :name => "车牌号",  :content => text_field_tag(:car_license_no,@accounting_job.aa_case.car_license_no,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "VIN", :content => text_field_tag(:car_vin,@accounting_job.aa_case.car_vin,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "车型", :content => text_field_tag(:car_model,@accounting_job.aa_case.car_model,:class => 'form-control',:readonly => '') %>
+            </div>
+            <h4 class="form-section">调度信息</h4>
+            <div class="form-group">
+              <%= render "shared/column", :name => "供应商", :content => text_field_tag(:name,(@accounting_job.aa_rescue.aa_vendor.name if @accounting_job.aa_rescue.aa_vendor), :class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "接单时间",  :content => text_field_tag(:car_license_no,@accounting_job.aa_case.car_license_no,:class => 'form-control',:readonly => '') %>
+              <%= render "shared/column", :name => "接单工号", :content => text_field_tag(:car_vin,@accounting_job.aa_case.car_vin,:class => 'form-control',:readonly => '') %>
+             
+            </div>
+            <% end %>
+            <h4 class="form-section">结算对账</h4>
+            <%=f.hidden_field(:aa_rescue_id,:value=>@accounting_job.aa_rescue_id)%>
+            <div class="form-group">
+              <label class="control-label col-md-1">[供应商]到达里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:distance_arrive, :readonly=>'') %>
+              </div>
+               <label class="control-label col-md-1">[供应商]拖车里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:distance_drag, :readonly=>'') %>
+              </div>
+               <label class="control-label col-md-1">[供应商]返回里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:distance_back, :readonly=>'') %>
+              </div>
+              <label class="control-label col-md-1">[供应商]总里程</label>
+              <div class="col-md-2">
+                <input type="text" value="<%= @accounting_job.distance_arrive.to_f+@accounting_job.distance_drag.to_f+@accounting_job.distance_back.to_f %>" readonly='' class='form-control'>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">[供应商]空驶里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:distance_empty_run, :readonly=>'') %>
+              </div>
+               <label class="control-label col-md-1">[供应商]救援费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:caa_fee, :readonly=>'') %>
+              </div>
+               <label class="control-label col-md-1">[供应商]附加费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:addition_fee, :readonly=>'') %>
+              </div>
+               <label class="control-label col-md-1">[供应商]实际费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:other_fee, :readonly=>'') %>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "供应商核算金额", :content => f.c_text_field(:fee, :readonly=>'') %>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">到达里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_distance_arrive,:onchange=>"cul_total();") %>
+              </div>
+               <label class="control-label col-md-1">拖车里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_distance_drag,:onchange=>"cul_total();") %>
+              </div>
+               <label class="control-label col-md-1">返回里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_distance_back,:onchange=>"cul_total();") %>
+              </div>
+              <label class="control-label col-md-1">总里程</label>
+              <div class="col-md-2">
+                <input type="text" id="total" value="<%= @accounting_job.confirm_distance_arrive.to_f+@accounting_job.confirm_distance_drag.to_f+@accounting_job.confirm_distance_back.to_f %>" readonly='' class='form-control'>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-1">空驶里程</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_distance_empty_run) %>
+              </div>
+               <label class="control-label col-md-1">救援费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_caa_fee) %>
+              </div>
+               <label class="control-label col-md-1">附加费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_addition_fee) %>
+              </div>
+              <label class="control-label col-md-1">实际费用</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:confirm_other_fee) %>
+              </div>
+            </div>
+            <div class="form-group">
+             
+              <%= render "shared/column", :name => "结算部核算金额", :content => f.c_text_field(:confirm_fee) %>
+            </div>
+            <h4 class="form-section">对账说明</h4>
+
+            <%= f.fields_for :accounting_job_logs,  @accounting_job.errors.count > 0 ? @accounting_job.accounting_job_logs.last : @accounting_job.accounting_job_logs.build  do |l| %>
+            <div class="form-group">
+              <label class="control-label col-md-1">内容</label>
+              <div class="col-md-11">
+                <%= l.text_area(:content, :class => "form-control") %>
+              </div>
+            </div>
+            <% end %>
+            <div  class="form-actions right">
+              <button type="submit" class="btn">保存</button>
+            </div>
+          <% end %>
+          <h4 class="form-section">对账说明</h4>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+            <tr>
+              <th>创建于</th>
+              <th>发言人</th>
+              <th>内容</th>
+            </tr>
+            <% @accounting_job.accounting_job_logs.order(created_at: :desc).each do |log| %>
+            <tr>
+              <td width="15%"><%= log.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+              <td width="5%"><%= log.user.name %></td>
+              <td width="45%"><%= log.content %></td>
+            </tr>
+            <% end %>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function cul_total()
+  {
+    var arrive = !isNaN(parseFloat($("#accounting_job_confirm_distance_arrive").val())) ? parseFloat($("#accounting_job_confirm_distance_arrive").val()) : 0;
+    var drag = !isNaN(parseFloat($("#accounting_job_confirm_distance_drag").val())) ? parseFloat($("#accounting_job_confirm_distance_drag").val()) : 0;
+    var back = !isNaN(parseFloat($("#accounting_job_confirm_distance_back").val())) ? parseFloat($("#accounting_job_confirm_distance_back").val()) : 0;
+  
+    $("#total").val(arrive+drag+back);
+  }
+</script>

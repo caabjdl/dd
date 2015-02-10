@@ -1,0 +1,10 @@
+<tr>
+	<td><%= f.select(:type, OPTIONS["contract_attachment_type"], {}, { :class => "form-control select2me" }) %></td>
+	<td><%= f.c_text_field(:name) %></td>
+	<td><%= f.c_text_field(:memo) %></td>
+	<td><%= f.file_field(:attachment) %></td>
+	<td>
+		<%= f.hidden_field :_destroy %>
+		<a class="btn default btn-xs black remove_fields" href="#">删除</a>
+	</td>
+</tr>

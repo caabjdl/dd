@@ -1,0 +1,6 @@
+<%= render "shared/notify_message" %>
+<%= render "/aa_cases/index_partial", :path => aa_cases_path, :title => "任务请求列表" %>
+<% @title =  "任务请求列表" %>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_cases_notify" %> 
+<% end %>

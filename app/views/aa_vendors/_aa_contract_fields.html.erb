@@ -1,0 +1,15 @@
+<tr>
+	<td><%= f.c_text_field(:no) %></td>
+	<td><%= f.c_date_field(:from)%></td>
+	<td>
+		<%= f.c_date_field(:to)%>
+	</td>
+	<td><%= f.select(:contract_type, ['类型A','类型B','类型C'], {}, :class => "form-control select2me") %></td>
+	<td><%= f.select(:status, ['已签','未签','过期'], {}, :class => "form-control select2me") %></td>
+	<td><%=f.file_field(:attachment) %></td>
+	<td><a href="<%=f.object.attachment.url %>">download</a></td>
+	<td>
+		<%= f.hidden_field :_destroy %>
+		<a class="btn default btn-xs black remove_fields" href="#">删除</a>
+	</td>
+</tr>

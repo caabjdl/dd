@@ -1,0 +1,23 @@
+<%= render "shared/notify_message" %>
+<%= form_for(@client, :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">基本信息</h4>
+    <div class="form-group">
+      <label class="control-label col-md-1">名称</label>
+      <div class="col-md-7">
+        <%= f.c_text_field(:name) %>
+      </div>
+      <%= render "shared/column", :name => "编号", :content => f.c_text_field(:no) %>
+    </div>
+    <div class="form-group">
+      <%= render "shared/column", :name => "联系人", :content => f.c_text_field(:contact) %>
+      <%= render "shared/column", :name => "电话", :content => f.c_text_field(:telephone) %>
+      <%= render "shared/column", :name => "传真", :content => f.c_text_field(:fax) %>
+    </div>
+
+  </div>
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>

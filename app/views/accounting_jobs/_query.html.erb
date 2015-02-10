@@ -1,0 +1,104 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">高级查询</h4>
+</div>
+<%= form_tag path, method: :get, class: "form-horizontal", role: "form", id: "accounting_jobs_query_form" do %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label  class="col-md-2 control-label">完成于</label>
+            <div class="col-md-4">
+              <div class="input-group date date-picker">
+                <input type="text" name="completed_begin_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <label  class="col-md-2 control-label">完成至</label>
+            <div class="col-md-4">
+              <div class="input-group date date-picker">
+                <input type="text" name="completed_end_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">接线于</label>
+            <div class="col-md-4">
+              <div class="input-group date date-picker">
+                <input type="text" name="case_begin_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <label  class="col-md-2 control-label">接线至</label>
+            <div class="col-md-4">
+              <div class="input-group date date-picker">
+                <input type="text" name="case_end_at" class="form-control" />
+                <span class="input-group-btn">
+                  <button class="btn default date-set">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">业务来源</label>
+            <div class="col-md-4">
+              <%=select_tag "client_service_name",  options_from_collection_for_select(ClientService.all,:name,:name), :class => 'form-control select2me',:include_blank => true %>
+            </div>
+            <label  class="col-md-2 control-label">服务类型</label>
+            <div class="col-md-4">
+              <% OPTIONS['rescue_type_actual'].values.each do |status| %>
+                <%=check_box_tag 'rescue_type[]',status %><%=status%>
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">调派供应商</label>
+            <div class="col-md-4">
+              <input type="text" name="aa_vendor_name" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">类型</label>
+            <div class="col-md-4">
+              <%=select_tag "type",  options_for_select(['','一口价','非一口价']), :class => 'form-control select2me' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">最小总里程</label>
+            <div class="col-md-4">
+              <input type="text" name="min_distance" class="form-control" />
+            </div>
+            <label  class="col-md-2 control-label">最大总里程</label>
+            <div class="col-md-4">
+              <input type="text" name="max_distance" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-md-2 control-label">状态</label>
+            <div class="col-md-4">
+               <%=select_tag "status",  options_for_select(['','已完成','取消有空驶']), :class => 'form-control select2me' %>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">查询</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

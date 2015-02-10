@@ -1,0 +1,82 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>车主信息</div> 
+       
+        <div class="actions">
+           <% if can? :export, Customer %>
+             <%= link_to "导出", export_customers_path(params), :class => "btn default" %>
+           <% end %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag customers_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>车主姓名</th>
+                  <th>驾照号码</th>
+                  <th>电话号码</th>
+                  <th>业务来源</th>
+                  <th>车</th>
+                  <th>服务项目</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @customers.each do |f| %>
+                <tr>
+                  <td><%= f.name %></td>
+                  <td><%= f.driver_license_no %></td>
+                  <td><%= f.mobile %></td>
+                  <td><%= f.client.name if f.client %></td>
+                  <td>
+                  <table>
+                    <% f.cars.each do |c|%>
+                      <tr>
+                        <th>车牌号</th><th>vin</th><th>车型</th>
+                      </tr>
+                      <tr>
+                        <td><%=c.license_no%></td>
+                        <td><%=c.vin%></td>
+                        <td><%=c.model %></td>
+                      </tr>
+                    <% end %>
+                    </table>
+                  </td>
+                  <td>
+                  <table>
+                    <% f.customer_services.each do |s|%>
+                      <tr>
+                        <td><%=s.service_item.name%></td>
+                        <td><%=link_to '创建任务', new_aa_case_path(:customer_service_id=>s.id) %></td>
+                      </tr>
+                    <% end %>
+                    </table>
+                  </td>
+                 
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @customers %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

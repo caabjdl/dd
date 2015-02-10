@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">状态</Data></Cell>
+        <Cell><Data ss:Type="String">供应商</Data></Cell>
+        <Cell><Data ss:Type="String">服务号</Data></Cell>
+        <Cell><Data ss:Type="String">服务项目</Data></Cell>
+        <Cell><Data ss:Type="String">客户姓名</Data></Cell>
+        <Cell><Data ss:Type="String">客户电话</Data></Cell>
+        <Cell><Data ss:Type="String">业务来源</Data></Cell>
+        <Cell><Data ss:Type="String">故障地址</Data></Cell>
+        <Cell><Data ss:Type="String">拖至地址</Data></Cell>
+        <Cell><Data ss:Type="String">到达</Data></Cell>
+        <Cell><Data ss:Type="String">拖车</Data></Cell>
+        <Cell><Data ss:Type="String">返回</Data></Cell>
+        <Cell><Data ss:Type="String">总</Data></Cell>
+        <Cell><Data ss:Type="String">空驶</Data></Cell>
+        <Cell><Data ss:Type="String">救援费用</Data></Cell>
+        <Cell><Data ss:Type="String">附加费</Data></Cell>
+        <Cell><Data ss:Type="String">结算金额</Data></Cell>
+        <Cell><Data ss:Type="String">车牌</Data></Cell>
+        <Cell><Data ss:Type="String">车型</Data></Cell>
+      </Row>
+      <% models.each do |job| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%=job.status %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_vendor.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.no%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.rescue_type%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.customer_name%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.customer_mobile%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.client_service_name%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.from_details%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.to_details%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_distance_arrive%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_distance_drag%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_distance_back%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.distance_arrive.to_f+job.distance_drag.to_f+job.distance_back.to_f%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_distance_empty_run%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_caa_fee%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_addition_fee%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.confirm_fee%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.car_license_no%></Data></Cell>
+        <Cell><Data ss:Type="String"><%=job.aa_case.car_model%></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

@@ -1,0 +1,53 @@
+<h4 class="form-section"><%=title %>日志</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <% item.versions.reverse.each do |v|%>
+    <thead>
+    <tr>
+      <td class="col-md-1">操作者:</td>
+      <td class="col-md-3"><%= User.find(v.whodunnit).name unless v.whodunnit.blank? %></td>
+      <td class="col-md-1">动作:</td>
+      <td class="col-md-3"><%= case v.event 
+                  when 'update' 
+                    '更新'
+                  when 'create' 
+                    '创建' 
+                  end %></td>
+      <td class="col-md-1">时间:</td>
+      <td class="col-md-2"><%= v.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+      <td class="col-md-1"><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapse_<%= v.id %>">详情</a></td>
+    </tr>
+    </thead>
+    
+    <tbody>
+    <tr>
+      <td colspan="7">
+      <div id="collapse_<%= v.id %>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <td class="col-md-2">栏位</td>
+              <td class="col-md-5">更改前</td>
+              <td class="col-md-5">更改后</td>
+            </tr>
+          </thead>
+          <tbody>
+            <% v.changeset.each do |c| %>
+            <tr>
+              <td><%= label item.class.to_s.underscore.to_sym, c[0].to_sym %></td>
+              <td><%= c[1][0] %></td>
+              <td><%= c[1][1] %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      </td>
+    </tr>
+    </tbody>
+    <% end %>
+  </table>
+</div>

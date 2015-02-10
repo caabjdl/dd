@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>未分配的任务</div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+            </div>
+          </div>
+          <div class="table-responsive">
+            <%= dynamic_table(@aa_cases) %>
+            <%= paginate @aa_cases %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% @title =  "未分配的任务" %>
+<div class="row">
+  <div class="modal fade" id="assign" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "assign" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_cases_notify" %> 
+<% end %>

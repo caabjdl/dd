@@ -1,0 +1,13 @@
+<tr>
+	<td><%= f.c_text_field(:license_no) %></td>
+	<td><%= f.select(:car_type,['救援车','拖叉车','平板拖车','吊车'], {}, { :class=>"form-control select2me" }) %></td>
+	<td><%= f.select(:status, OPTIONS["car_status"], {}, {:class => "form-control select2me"}) %></td>
+	<td><%= f.c_text_field(:run_no) %></td>
+	<td><%= f.c_text_field(:insurance_no) %></td>
+	<td><%= f.c_text_field(:gps_device_no) %></td>
+	<td><%= f.c_text_field(:gps_device_type) %></td>
+	<td>
+		<%= f.hidden_field :_destroy %>
+		<a class="btn default btn-xs black remove_fields" href="#">删除</a>
+	</td>
+</tr>

@@ -1,0 +1,44 @@
+<%= form_for(@client_service, :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">可调度来源</h4>
+    <div class="form-group">
+      <%= render "shared/column", :name => "名称", :content => f.c_text_field(:name) %>
+      <label class="control-label col-md-1">禁用</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:disabled, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+      <label class="control-label col-md-1">自动分配</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:can_auto_assign, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+      <label class="control-label col-md-1">发短信</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:can_send_sms, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+      <label class="control-label col-md-1">结算对象必填</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:required_customer_account, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>

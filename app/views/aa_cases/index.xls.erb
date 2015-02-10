@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+
+        <Cell><Data ss:Type="String">完成状态</Data></Cell>
+        <% AaCase.column_names.each do |column| %>
+          <Cell><Data ss:Type="String"><%=I18n.t column,scope: [:activerecord,:attributes,:aa_case] %> </Data></Cell>
+        <% end %>
+      </Row>
+    <% models.each do |aa_case| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%=aa_case.aa_rescue.status if aa_case.aa_rescue %></Data></Cell>
+        <% aa_case.attributes.values_at(*AaCase.column_names).each do |value_at_column| %>
+          <Cell><Data ss:Type="String"><%=value_at_column%></Data></Cell>
+        <% end %>
+
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

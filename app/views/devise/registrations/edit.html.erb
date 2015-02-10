@@ -1,0 +1,48 @@
+<!-- BEGIN LOGIN FORM -->
+<%= form_for(resource, :as => resource_name, :url => user_registration_path(resource), :html => { :method => :patch, :class => "login-form" }) do |f| %>
+  <h3 class="form-title">修改密码</h3>
+  <%= devise_error_messages! %>
+  <% unless flash[:alert].nil? %>
+  <div class="alert alert-danger">
+    <button class="close" data-dismiss="alert"></button>
+    <span><%= flash[:alert] %></span>
+  </div>
+  <% end %>
+  <div class="form-group">
+    <label class="control-label visible-ie8 visible-ie9">原始密码</label>
+    <div class="input-icon">
+      <i class="fa fa-lock"></i>
+      <%= f.password_field :current_password, :class => "form-control placeholder-no-fix", :placeholder => "原始密码" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label visible-ie8 visible-ie9">新密码</label>
+    <div class="input-icon">
+      <i class="fa fa-lock"></i>
+      <%= f.password_field :password, :class => "form-control placeholder-no-fix", :placeholder => "新密码" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label visible-ie8 visible-ie9">确认密码</label>
+    <div class="input-icon">
+      <i class="fa fa-lock"></i>
+      <%= f.password_field :password_confirmation, :class => "form-control placeholder-no-fix", :placeholder => "确认密码" %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn green pull-right" >
+    修改密码 <i class="m-icon-swapright m-icon-white"></i>
+    </button>
+  </div>
+  <div class="forget-password">
+    <p>
+      忘记密码或者创建账户,请联系管理员.
+    </p>
+  </div>
+</form>
+<% end %>
+<!-- END LOGIN FORM -->
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "devise" %> 
+<% end %>

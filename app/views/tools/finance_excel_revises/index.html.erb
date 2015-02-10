@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>Excel处理</div>
+        <div class="actions">
+          
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              导入EXCEL表头前三列规范 <br/> | 单号 | 供应商名称 | 车牌号 |
+            </div>
+          </div>
+          <div class="table-responsive">
+            <form action="/tools/finance_excel_revises/import"  method="post" enctype="multipart/form-data">
+              <%= file_field_tag :file %>
+              <%= submit_tag "导入" %>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

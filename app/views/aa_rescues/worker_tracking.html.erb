@@ -1,0 +1,83 @@
+<% content_for :page_scripts do %>
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    var mapObj;
+    mapInit();
+  });
+
+  //初始化地图对象，加载地图
+  function mapInit(){  
+    mapObj = new MMap.Map("iCenter"); 
+    addMPolyline();
+  }
+
+  
+  function addMPolyline(){ 
+  
+    var polylineArr = new Array();//经纬度坐标数组 
+    var coords = <%= raw @tracking_data %>;
+    console.log(coords);
+    if(coords.length > 0){
+
+      for ( var i = 0; i < coords.length; i++ ){
+        var lng = coords[i][1];
+        var lat = coords[i][0];
+        polylineArr.push(new MMap.LngLat(lng, lat));
+        if (i==0) {
+          addStartPoint(lng,lat);
+        };
+        if (i==coords.length-1) {
+          addEndPoint(lng,lat);
+          
+        };
+      }
+      var polyline=new MMap.Polyline({  
+          id:"line",  
+          path:polylineArr,     
+          strokeColor:"#F00", //线颜色  
+          strokeOpacity:0.8, //线透明度      
+          strokeWeight:2, //线宽      
+      });  
+
+      mapObj.addOverlays(polyline); 
+      mapObj.setFitView([polyline]); 
+    }
+  }
+
+  function addStartPoint(lng,lat)
+  {
+    addPoint(lng,lat,'markerid1',"http://code.mapabc.com/images/lan_1.png",'起点');
+  }
+
+  function addEndPoint(lng,lat)
+  {
+    addPoint(lng,lat,'markerid2',"http://code.mapabc.com/images/lan_1.png",'终点');
+  }
+
+  function addPoint(lng,lat,markerid,icon,content){
+    var marker = new MMap.Marker({                    
+       id:markerid, //marker id                       
+       position:new MMap.LngLat(lng,lat), //位置  
+       offset:new MMap.Pixel(-11.5,-32), //基点为图片左上角，设置相对基点的图片位置偏移量，向左向下为负 
+       icon:icon,//图标，直接传递地址，还可以为MMap.Icon 对象 
+       draggable:false, //不可拖动 
+    });
+
+    mapObj.addOverlays(marker);//添加点覆盖物 
+    var inforWindow = new MMap.InfoWindow({ 
+        content:"<span style='font-family:verdana;font-size:80%'>"+content+"</span>", 
+  
+        offset:new MMap.Pixel(-100,-96) 
+    }); 
+  
+    inforWindow.open(mapObj,marker.getPosition()); 
+    mapObj.bind(marker,"click",function(e){ 
+        inforWindow.open(mapObj,marker.getPosition());   
+    });  
+  } 
+
+  
+</script>
+<% end %>
+
+<div id="iCenter" style="height:100%; width:100%"></div>

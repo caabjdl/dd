@@ -1,0 +1,17 @@
+<%= render "shared/notify_message" %>
+<%= form_for(@settlement_institution, :html => { :class => "form-horizontal",'data-new' => @settlement_institution.new_record? }, :multipart=> true) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">基本信息</h4>
+    <div class="form-group">
+      <%= render "shared/column", :name => "来源", :content => f.collection_select(:client_service_id,ClientService.enabled,:id,:name,{}, { :class => "form-control select2me" }) %>
+      <%= render "shared/column", :name => "名称", :content => f.c_text_field(:name) %>
+      <%= render "shared/column", :name => "编码", :content => f.c_text_field(:code) %>
+    </div>
+    
+  </div>
+  
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>    

@@ -1,0 +1,271 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <%= form_for(@vendor, url: update_by_myself_aa_vendors_path(:vendor_id => @vendor.id), method: "post", :html => { :class => "form-horizontal",'data-new' => @vendor.new_record? }, :multipart=> true) do |f| %>
+         <div class="form-body">
+           <%= f.error_messages %>
+           <h4 class="form-section">基本信息</h4>
+           <div class="form-group">
+             <%= render "shared/column", :name => "名称", :content => f.c_text_field(:name) %>
+             <%= render "shared/column", :name => "调度状态", :content => f.select(:dispatcher_status, OPTIONS["dispatcher_status"], {}, { :class => "form-control select2me" }) %>
+             <label class="control-label col-md-1">禁用</label>
+             <div class="col-md-1">
+               <div class="checkbox-list">
+                 <label class="checkbox-inline">
+                   <%= f.check_box(:disabled, :class => "form-control" ) %>
+                 </label>
+               </div>
+             </div>
+           </div>
+
+           <div class="form-group">
+             <label class="control-label col-md-1">办公地址</label>
+             <div class="col-md-2">
+               <%= f.select(:province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+             </div>
+             <div class="col-md-2">
+               <%= f.select(:city, District.cities(@vendor.province), {}, { :class=>"form-control select2me" }) %>
+             </div>
+             <div class="col-md-2">
+               <%= f.select(:region, District.regions(@vendor.province, @vendor.city), {}, { :class=>"form-control select2me" }) %>
+             </div>
+             <div class='col-md-5'>
+               <%= f.c_text_field(:address) %>
+             </div>
+           </div>
+
+           <div class="form-group">
+             <%= render "shared/column", :name => "合约负责人", :content => f.c_text_field(:contact) %>
+             <%= render "shared/column", :name => "职务", :content => f.c_text_field(:contact_position) %>
+             <%= render "shared/column", :name => "个人电话", :content => f.c_text_field(:telephone) %>
+           </div>
+           
+           <div class="form-group">
+           <label class="control-label col-md-1">邮箱</label>
+            <div class="col-md-7">
+             <%= f.c_text_field(:email) %>
+             </div>
+             <%= render "shared/column", :name => "传真", :content => f.c_text_field(:fax) %>
+           </div>
+
+           <div class="form-group">
+             <label class="control-label col-md-1">救援车</label>
+             <div class="col-md-2">
+               <%= f.c_text_field(:help_car) %>
+             </div>
+             <label class="control-label col-md-1">拖叉车</label>
+             <div class="col-md-2">
+               <%= f.c_text_field(:trail_car) %>
+             </div>
+             <label class="control-label col-md-1">平板拖车</label>
+             <div class="col-md-2">
+               <%= f.c_text_field(:flat_car) %>
+             </div>
+             <label class="control-label col-md-1">吊车</label>
+             <div class="col-md-2">
+               <%= f.c_text_field(:crane_car) %>
+             </div>
+           </div>
+
+           <div class="form-group">
+             <label class="control-label col-md-1">备注</label>
+             <div class='col-md-11'>
+               <%= f.text_area(:memo, { :class => "form-control" }) %>
+             </div>
+           </div>
+
+           <h4 class="form-section">结算信息</h4>
+           <div class="form-group">
+             <%= render "shared/column", :name => "银行账户名", :content => f.c_text_field(:account_name) %>
+             <%= render "shared/column", :name => "银行账号", :content => f.c_text_field(:account_no) %>
+             <%= render "shared/column", :name => "开户行", :content => f.c_text_field(:open_bank) %>
+           </div>
+
+           <div class="form-group">
+             <%= render "shared/column", :name => "救援结算", :content => f.select(:rescue_price, OPTIONS["rescue_price"], {}, {:class => "form-control select2me"}) %>
+             <label class="control-label col-md-2">起步价(一口价)</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:rescue_base_fare) %>
+             </div>
+             <label class="control-label col-md-1">含公里数</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:rescue_include_kilometers) %>
+             </div>
+             <label class="control-label col-md-1">单价</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:rescue_unit_price) %>
+             </div>
+           </div>
+           <div class="form-group">
+             <%= render "shared/column", :name => "拖车结算", :content => f.select(:trail_price, OPTIONS["rescue_price"], {}, {:class => "form-control select2me"}) %>
+             <label class="control-label col-md-2">起步价(一口价)</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:trail_base_fare) %>
+             </div>
+             <label class="control-label col-md-1">含公里数</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:trail_include_kilometers) %>
+             </div>
+             <label class="control-label col-md-1">单价</label>
+             <div class="col-md-1">
+             <%= f.c_text_field(:trail_unit_price) %>
+             </div>
+           </div>
+
+           <div class="form-group">
+             <label class="control-label col-md-1">困境结算</label>
+             <div class="col-md-11">
+               <%= f.c_text_field(:difficult_situation) %>
+             </div>
+             
+             
+           </div>
+
+           <h4 class="form-section">服务区域</h4>
+
+           <div class="table-responsive">
+             <table id="table_regions" class="table table-hover table-bordered">
+               <thead>
+                 <tr>
+                   <th>省</th>
+                   <th>市</th>
+                   <th>区</th>
+                   <!-- <th>地址</th> -->
+                   <th>到达时间(分钟)</th>
+                   <th>救援等级</th>
+                   <th>拖车等级</th>
+                   <th>困境等级</th>
+                   <th>电话</th>
+                   <th>服务项目</th>
+                   <th>备注</th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <%= f.fields_for :aa_regions do |r| %>
+                   <%= render "aa_region_fields", :f => r %>
+                 <% end %>
+                 <tr>
+                   <td colspan="12">
+                   <%= link_to_add_fields "添加", f, :aa_regions %>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+
+           <h4 class="form-section">救援服务联系人</h4>
+
+           <div class="table-responsive">
+             <table class="table table-hover table-bordered">
+               <thead>
+                 <tr>
+                   <th>姓名</th>
+                   <th>职务</th>
+                   <th>电话</th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <%= f.fields_for :aa_contacts do |c| %>
+                   <%= render "aa_contact_fields", :f => c %>
+                 <% end %>
+                 <tr>
+                   <td colspan="4"><%= link_to_add_fields "添加", f, :aa_contacts %></td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+
+
+           <h4 class="form-section">救援车辆信息</h4>
+
+           <div class="table-responsive">
+             <table class="table table-hover table-bordered">
+               <thead>
+                 <tr>
+                   <th>车架号</th>
+                   <th>类型</th>
+                   <th>状态</th>
+                   <th>车辆行驶证</th>
+                   <th>救援车保单号</th>
+                   <th>GPS设备类型</th>
+                   <th>GPS设备号</th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <%= f.fields_for :aa_trailers do |t| %>
+                   <%= render('aa_trailer_fields', :f => t )%>
+                 <% end %>
+                 <tr>
+                   <td colspan="8"><%= link_to_add_fields "添加", f, :aa_trailers %></td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+
+           <h4 class="form-section">司机(救援人)</h4>
+
+           <div class="table-responsive">
+             <table class="table table-hover table-bordered">
+               <thead>
+                 <tr>
+                   <th>姓名</th>
+                   <th>电话</th>
+                   <th>身份证</th>
+                   <th>驾驶证</th>
+                   <th>救援资格证</th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <%= f.fields_for :aa_workers do |w| %>
+                   <%= render('aa_worker_fields', :f => w )%>
+                 <% end %>
+                 <tr>
+                   <td colspan="6"><%= link_to_add_fields "添加", f, :aa_workers %></td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+
+           <h4 class="form-section">附件</h4>
+
+           <div class="table-responsive">
+             <table class="table table-hover table-bordered">
+               <thead>
+                 <tr>
+                   <th>附件类型</th>
+                   <th>附件名称</th>
+                   <th>备注</th>           
+                   <th>附件</th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <%= f.fields_for :aa_vendor_attachments do |r| %>
+                   <%= render "aa_vendor_attachment_fields", :f => r %>
+                 <% end %>
+                 <tr>
+                   <td colspan="7"><%= link_to_add_fields "添加", f, :aa_vendor_attachments %></td>
+                 </tr>
+               </tbody>
+             </table>
+           </div> 
+         </div>
+         <div class="form-actions right">
+           <button type="submit" class="btn">保存</button>
+         </div>
+        <% end %>  
+
+        </div>
+    </div>
+  </div>
+</div>  
+      
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_vendors" %> 
+<% end %>

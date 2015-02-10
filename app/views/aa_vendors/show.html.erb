@@ -1,0 +1,181 @@
+<h4 class="form-section">基本信息</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <tr>
+      <%= render "shared/column_show", :name => "名称", :content => @aa_vendor.name %>
+      <%= render "shared/column_show", :name => "调度状态", :content => @aa_vendor.dispatcher_status %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>办公地址</td>
+      <td colspan="3">
+        <%= @aa_vendor.province %>
+        <%= @aa_vendor.city %>
+        <%= @aa_vendor.region %>
+        <%= @aa_vendor.address %>
+      </td>
+      <td>行政地址</td>
+      <td colspan="3">
+        <%= @aa_vendor.admin_province %>
+        <%= @aa_vendor.admin_city %>
+        <%= @aa_vendor.admin_region %>
+        <%= @aa_vendor.admin_address %>
+      </td>
+    </tr>
+
+    <tr>
+      <%= render "shared/column_show", :name => "联络人", :content => @aa_vendor.contact %>
+      <%= render "shared/column_show", :name => "职务", :content => @aa_vendor.contact_position %>
+      <%= render "shared/column_show", :name => "电话", :content => @aa_vendor.telephone %>
+      <%= render "shared/column_show", :name => "救援电话", :content => @aa_vendor.mobile %>
+    </tr>
+
+    <tr>
+      <%= render "shared/column_show", :name => "邮箱", :content => @aa_vendor.email %>
+      <%= render "shared/column_show", :name => "传真", :content => @aa_vendor.fax %>
+      <%= render "shared/column_show", :name => "救援结算", :content => @aa_vendor.fast_repair %>
+      <%= render "shared/column_show", :name => "拖车结算", :content => @aa_vendor.car_compute %>
+    </tr>
+    <tr>
+      <%= render "shared/column_show", :name => "救援车", :content => @aa_vendor.help_car %>
+      <%= render "shared/column_show", :name => "拖叉车", :content => @aa_vendor.trail_car %>
+      <%= render "shared/column_show", :name => "平板拖车", :content => @aa_vendor.flat_car %>
+      <%= render "shared/column_show", :name => "吊车", :content => @aa_vendor.crane_car %>
+    </tr>
+    <tr>
+      <%= render "shared/column_show", :name => "拖车", :content => @aa_vendor.car_route %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>备注</td>
+      <td colspan="7"><%= @aa_vendor.memo %></td>
+    </tr>
+  </table>
+</div>
+
+<h4 class="form-section">服务区域</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>省</th>
+        <th>市</th>
+        <th>区</th>
+        <th>地址</th>
+        <th>到达时间(分钟)</th>
+        <th>救援等级</th>
+        <th>拖车等级</th>
+        <th>电话</th>
+        <th>备注</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @aa_vendor.aa_regions.each do |f| %>
+      <tr>
+        <td><%= f.province %></td>
+        <td><%= f.city %></td>
+        <td><%= f.district %></td>
+        <td><%= f.details %></td>
+        <td><%= f.minutes_of_arrival %></td>
+        <td><%= f.support_level %></td>
+        <td><%= f.car_level %></td>
+        <td><%= f.telephone %></td>
+        <td><%= f.memo %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h4 class="form-section">联系人</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>电话</th>
+        <th>职位</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @aa_vendor.aa_contacts.each do |f| %>
+      <tr>
+        <td><%= f.name %></td>
+        <td><%= f.phone %></td>
+        <td><%= f.title %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h4 class="form-section">救援车</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>车架号</th>
+        <th>类型</th>
+        <th>状态</th>
+        <th>GPS设备号</th>
+        <th>GPS设备类型</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @aa_vendor.aa_trailers.each do |f| %>
+      <tr>
+        <td><%= f.license_no %></td>
+        <td><%= f.car_type %></td>
+        <td><%= f.status %></td>
+        <td><%= f.gps_device_no %></td>
+        <td><%= f.gps_device_type %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h4 class="form-section">司机</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>电话</th>
+        <th>身份证</th>
+        <th>驾驶证</th>
+        <th>资格证</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @aa_vendor.aa_workers.each do |f| %>
+      <tr>
+        <td><%= f.name %></td>
+        <td><%= f.mobile %></td>
+        <td><%= f.id_no %></td>
+        <td><%= f.driving_license_no %></td>
+        <td><%= f.qualification_no %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="form-actions right">
+<%= link_to "修改", edit_aa_vendor_path(@aa_vendor), :class => "btn default" %>
+</div>
+
+<%= render 'layouts/version',:item => @aa_vendor ,:title =>'' %>

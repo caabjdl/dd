@@ -1,0 +1,66 @@
+<%= render "shared/notify_message" %>
+<%= form_for(@pingan_photo, :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">基本信息</h4>
+    <%= f.hidden_field(:aa_case_id)%>
+    <div class="form-group">
+      <%= render "shared/column", :name => "编号", :content => f.c_text_field(:aa_case_no, readonly:'',value: @pingan_photo.aa_case.no) %>
+    </div>
+    <div class="form-group">
+    <label class="control-label col-md-1">选择照片</label>
+    <div class="col-md-11">
+     <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+        <tr>
+          <th>文件名</th>
+          <th>地址</th>
+        </tr>
+
+          <% media = @wechat_medias  %>
+          <% media.each do |m|%>
+          <tr>
+            <td>
+              <img src="<%=m.media_file.url%>"  width="200" height="200">
+            </td>
+            <td>
+              <select name='media_file[<%=m.id%>]' class="form-control select2me">
+                <option></option>
+                <option value='1'>整车照</option>
+                <option value='2'>施救照</option>
+                <option value='3'>签字确认照</option>
+                <option value='4'>拖车终点照1</option>
+                <option value='5'>拖车终点照2</option>
+              </select>
+            </td>
+          </tr>
+          <% end %>
+
+          <% @aa_rescue.aa_rescue_attachments.each do |attachment| %>
+            <td><img src="<%=attachment.media_file.url%>"  width="200" height="200"></td>
+   
+            <td>
+              <select name='attachment_file[<%=attachment.id%>]' class="form-control select2me">
+                <option></option>
+                <option value='1'>整车照</option>
+                <option value='2'>施救照</option>
+                <option value='3'>签字确认照</option>
+                <option value='4'>拖车终点照1</option>
+                <option value='5'>拖车终点照2</option>
+              </select>
+            </td>
+          <% end %>
+        
+        </table>
+      </div>
+    </div>
+
+      
+    </div>
+    
+
+  </div>
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>

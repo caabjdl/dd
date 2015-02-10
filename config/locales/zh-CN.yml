@@ -1,0 +1,466 @@
+zh-CN:
+  date:
+    abbr_day_names:
+    - 日
+    - 一
+    - 二
+    - 三
+    - 四
+    - 五
+    - 六
+    abbr_month_names:
+    - 
+    - 1月
+    - 2月
+    - 3月
+    - 4月
+    - 5月
+    - 6月
+    - 7月
+    - 8月
+    - 9月
+    - 10月
+    - 11月
+    - 12月
+    day_names:
+    - 星期日
+    - 星期一
+    - 星期二
+    - 星期三
+    - 星期四
+    - 星期五
+    - 星期六
+    formats:
+      default: ! '%Y-%m-%d'
+      long: ! '%Y年%b%d日'
+      short: ! '%b%d日'
+    month_names:
+    - 
+    - 一月
+    - 二月
+    - 三月
+    - 四月
+    - 五月
+    - 六月
+    - 七月
+    - 八月
+    - 九月
+    - 十月
+    - 十一月
+    - 十二月
+    order:
+    - :year
+    - :month
+    - :day
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 大约一小时
+        other: 大约 %{count} 小时
+      about_x_months:
+        one: 大约一个月
+        other: 大约 %{count} 个月
+      about_x_years:
+        one: 大约一年
+        other: 大约 %{count} 年
+      almost_x_years:
+        one: 接近一年
+        other: 接近 %{count} 年
+      half_a_minute: 半分钟
+      less_than_x_minutes:
+        one: 不到一分钟
+        other: 不到 %{count} 分钟
+      less_than_x_seconds:
+        one: 不到一秒
+        other: 不到 %{count} 秒
+      over_x_years:
+        one: 一年多
+        other: ! '%{count} 年多'
+      x_days:
+        one: 一天
+        other: ! '%{count} 天'
+      x_minutes:
+        one: 一分钟
+        other: ! '%{count} 分钟'
+      x_months:
+        one: 一个月
+        other: ! '%{count} 个月'
+      x_seconds:
+        one: 一秒
+        other: ! '%{count} 秒'
+    prompts:
+      day: 日
+      hour: 时
+      minute: 分
+      month: 月
+      second: 秒
+      year: 年
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: "必须是可被接受的"
+      blank: "不能为空字符"
+      confirmation: "与确认值不匹配"
+      empty: "不能留空"
+      equal_to: "必须等于 %{count}"
+      even: 必须为双数
+      exclusion: 是保留关键字
+      greater_than: 必须大于 %{count}
+      greater_than_or_equal_to: 必须大于或等于 %{count}
+      inclusion: 不包含于列表中
+      invalid: 是无效的
+      less_than: 必须小于 %{count}
+      less_than_or_equal_to: 必须小于或等于 %{count}
+      not_a_number: 不是数字
+      not_an_integer: 必须是整数
+      odd: 必须为单数
+      record_invalid: ! '验证失败: %{errors}'
+      taken: "已经被使用"
+      too_long: "过长(最长为 %{count} 个字符)"
+      too_short: "过短(最短为 %{count} 个字符)"
+      wrong_length: "长度非法(必须为 %{count} 个字符)"
+    template:
+      body: 如下字段出现错误：
+      header:
+        one: 有 1 个错误发生导致「%{model}」无法被保存。
+        other: 有 %{count} 个错误发生导致「%{model}」无法被保存。
+  helpers:
+    select:
+      prompt: 请选择
+    submit:
+      create: 新增%{model}
+      submit: 储存%{model}
+      update: 更新%{model}
+    label:
+      aa_case:
+        owner_no: '接单工号'
+        "no": '服务号'
+        customer_no: '会员号'
+        customer_mobile: '联系电话'
+        customer_name: '会员姓名'
+        car_no: '车号'
+        client_service_name: '业务来源'
+        car_license_no: '车牌号'
+        location: '位置'
+        latitude: '经度'
+        longitude: '纬度'
+        aa_trailer_no: '拖车号'
+        out_source_no: '外部单号'
+        status: '状态'
+        dispatched_at: '派车时间'
+        arrived_at: '到达时间'
+        finished_at: '完成时间'
+        car_model: '车型'
+        is_cancel: '是否取消'
+        dispatcher_no: '调度单号'
+        dispatcher_name: '调度姓名'
+        is_dispatch: '是否调度'
+        rescue_reason: '故障类型'
+        from_province: '故障地点(省)'
+        from_city: '故障地点(市)'
+        from_region: '故障地点(区)'
+        from_details: '故障地点(街道)'
+        from_longitude: '故障地点(经度)'
+        from_latitude: '故障地点(纬度)'
+        to_province: '拖车地点(省)'
+        to_city: '拖车地点(市)'
+        to_region: '拖车地点(区)'
+        to_details: '拖车地点(街道)'
+        to_longitude: '拖车地点(经度)'
+        to_latitude: '拖车地点(纬度)'
+        data_source: '数据来源'
+        updated_at: '更新于'
+        created_at: '创建时间'
+        connected_at: '接线时间'
+        creater: '接线人'
+        creater_id: '接线人'
+        creater_no: '接线工号'
+        dispatcher_id: '调度人'
+        owner_id: '归属人'
+        memo: '说明'
+        rescue_type: '服务项目'
+        car_vin: 'VIN'
+        car_lincense_no: '车牌号'
+        from: '故障地址'
+        appointment_at: '预约时间'
+        owner:
+          name: '所属人'
+        aa_rescue:
+          status: '状态'
+  number:
+    currency:
+      format:
+        delimiter: ! ','
+        format: ! '%u %n'
+        precision: 2
+        separator: .
+        significant: false
+        strip_insignificant_zeros: false
+        unit: CN¥
+    format:
+      delimiter: ! ','
+      precision: 3
+      separator: .
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: 十亿
+          million: 百万
+          quadrillion: 千兆
+          thousand: 千
+          trillion: 兆
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: false
+        strip_insignificant_zeros: false
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ! ', 和 '
+      two_words_connector: ! ' 和 '
+      words_connector: ! ', '
+  time:
+    am: 上午
+    formats:
+      default: ! '%Y年%b%d日 %A %H:%M:%S %Z'
+      long: ! '%Y年%b%d日 %H:%M'
+      short: ! '%b%d日 %H:%M'
+    pm: 下午
+  unauthorized:
+    manage:
+      all: "你没有权限执行该操作."
+  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
+  activerecord:
+    models:
+      aa_vendor: '服务商'
+      aa_trailer: '拖车'
+      aa_case: '调度单'
+      user: '用户账户'
+      client_service: '可调度来源'
+    attributes:
+      aa_vendor:
+        no: '编号'
+        name: '名称'
+        address: '办公地址'
+        province: '省'
+        city: '市'
+        region: '区域'
+        support_level: '救援级别'
+        car_level: '拖车级别'
+        contact: '负责人'
+        contact_position: '负责人职务'
+        mobile: '手机'
+        telephone: '电话'
+        fax: '传真'
+        fast_repair: '24小时救援电话'
+        email: '邮箱'
+        rescue_price: '救援结算'
+        rescue_base_fare: '起步价(一口价)'
+        rescue_include_kilometers: '含公里数'
+        rescue_unit_price: '单价'
+        trail_price: '拖车结算'
+        trail_base_fare: '起步价(一口价)'
+        trail_include_kilometers: '含公里数'
+        trail_unit_price: '单价'
+        dispatcher_status: '救援状态'
+        admin_address: '行政地址'
+        admin_province: '省(行政)'
+        admin_city: '市(行政)'
+        admin_region: '区(行政)'
+        help_car: '救援车'
+        trail_car: '拖车'
+        flat_car: '平板拖车'
+        crane_car: '吊车'
+      "aa_vendor/aa_workers":
+        name: '司机姓名'
+        aa_vendor_no: '服务商'
+        mobile: '司机电话'
+        id_no: '司机身份证'
+        driving_license_no: '司机驾驶证'
+        qualification_no: '司机资格证'
+      "aa_vendor/aa_trailers":
+        license_no: '车牌号'
+        type: '类型'
+        gps_device_no: 'gps设备号'
+        gps_device_type: 'gps设备类型'
+        status: '状态'
+        aa_vendor_no: '服务商'
+      aa_trailer:
+        license_no: '车牌号'
+        type: '类型'
+        gps_device_no: 'gps设备号'
+        gps_device_type: 'gps设备类型'
+        status: '状态'
+        aa_vendor_no: '服务商'
+      aa_worker:
+        name: '姓名'
+        aa_vendor_no: '服务商'
+        mobile: '电话'
+        id_no: '身份证'
+        driving_license_no: '驾驶证'
+        qualification_no: '资格证'
+      aa_contract:
+        "no": '编号'
+        from: '开始时间'
+        to: '截至时间'
+        status: '合同状态'
+        contract_type: '合同类型'
+      aa_region:
+        province: '省'
+        city: '市'
+        district: '区'
+        details: '地址'
+        minutes_of_arrival: '到达时间'
+        memo: '备注'
+      aa_case:
+        owner_no: '接单工号'
+        "no": '服务号'
+        customer_no: '会员号'
+        customer_mobile: '联系电话'
+        customer_name: '会员姓名'
+        car_no: '车号'
+        client_service_name: '业务来源'
+        car_license_no: '车牌号'
+        location: '位置'
+        latitude: '经度'
+        longitude: '纬度'
+        aa_trailer_no: '拖车号'
+        out_source_no: '外部单号'
+        status: '调度状态'
+        dispatched_at: '派车时间'
+        arrived_at: '到达时间'
+        finished_at: '完成时间'
+        car_model: '车型'
+        is_cancel: '是否取消'
+        dispatcher_no: '调度单号'
+        dispatcher_name: '调度姓名'
+        is_dispatch: '是否调度'
+        rescue_reason: '故障类型'
+        from_province: '故障地点(省)'
+        from_city: '故障地点(市)'
+        from_region: '故障地点(区)'
+        from_details: '故障地点(街道)'
+        from_longitude: '故障地点(经度)'
+        from_latitude: '故障地点(纬度)'
+        to_province: '拖车地点(省)'
+        to_city: '拖车地点(市)'
+        to_region: '拖车地点(区)'
+        to_details: '拖车地点(街道)'
+        to_longitude: '拖车地点(经度)'
+        to_latitude: '拖车地点(纬度)'
+        data_source: '数据来源'
+        updated_at: '更新于'
+        created_at: '创建时间'
+        connected_at: '接线时间'
+        creater: '接线人'
+        creater_id: '接线人'
+        creater_no: '接线工号'
+        dispatcher_id: '调度人'
+        owner_id: '归属人'
+        memo: '说明'
+        rescue_type: '服务项目'
+        car_vin: 'VIN'
+        car_lincense_no: '车牌号'
+        from: '故障地址'
+        appointment_at: '预约时间'
+        from_address: '故障地址'
+        owner_name: '所属人'
+        customer_account: '结算对象'
+        owner:
+          name: '所属人'
+        aa_rescue:
+          status: '调度状态'
+      aa_case_logs:
+        eta: '预计到达时间'
+        content: '工作日志内容'
+      aa_rescue:
+        no: '接单号'
+        owner_no: '接单工号'
+        customer_no: '会员号'
+        customer_mobile: '联系电话'
+        customer_name: '会员姓名'
+        car_license_no: '车牌号'
+        location: '位置'
+        latitude: '经度'
+        longitude: '纬度'
+        status: '调度状态'
+        dispatched_at: '派车时间'
+        arrived_at: '到达时间'
+        finished_at: '完成时间'
+        car_model: '车型'
+        is_cancel: '是否取消'
+        dispatcher_no: '调度单号'
+        dispatcher_name: '调度姓名'
+        is_dispatch: '是否调度'
+        aa_worker_name: '施救人姓名'
+        aa_vendor_id: '调派供应商'
+        aa_worker_phone: '施救人电话'
+        photo_phone: '拍照手机'
+        cancel_reason: '取消原因'
+        aa_vendor_name: '实际供应商'
+        plan_arrive_at: '预计到达时间'
+        rescue_reason: '救援原因'
+        completed_at: '结束时间'
+        from_details: '故障地点'
+        distance_arrive: '到达里程'
+        distance_back: '返回里程'
+        distance_empty_run: '空驶里程'
+        distance_drag: '拖车里程'
+        fee: '救援费用'
+        updated_at: '更新于'
+        created_at: '接单时间'
+        contacted_at: '回拨时间'
+        dispatched_at: '调派成功'
+        plan_arrive_at: '预计到达'
+        arrived_at: '实际到达'
+        completed_at: '实际完成'
+        canceled_at: '取消时间'
+      user:
+        password_confirmation: '确认密码'
+        email: '账户'
+        password: '密码'
+        name: '姓名'
+        department: '部门'
+        no: '工号'
+        current_password: "原始密码"
+        auto_assign_interval: "自动分配间隔"
+      client:
+        "no": "编号"
+        name: "名称"
+        contact: "联系人"
+        phone: "电话"
+        fax: "传真"
+      client_service:
+        name: "名称"
+      client_api_profile:
+        cid: 'CID'
+        secret: '密钥'
+        client_service_name: '数据源名称'
+        client_id: "客户"
+      service_item:
+        name: '项目名称'
+        "no": '编号'
+      district:
+        province: '省'
+        city: '市'
+        region: '区'

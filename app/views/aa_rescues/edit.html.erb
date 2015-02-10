@@ -1,0 +1,380 @@
+<% @title = @aa_rescue.aa_case.no.nil? ? nil : @aa_rescue.aa_case.no[-6..-1]  %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box">
+      <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        <input type="hidden" id="show_cancel_modal" value="<%=@aa_rescue.aa_case.is_waiting_cancel%>" />
+        <%= form_for(@aa_rescue, :html => { :class => "form-horizontal" }) do |f| %>
+          <div class="form-body">
+            <%= f.error_messages %>
+            <%= f.fields_for :aa_case do |aa_case_form| %>
+            <h4 class="form-section">基本信息</h4>
+
+            <div class="form-group">
+              <%= render "shared/column", :name => (aa_case_form.label :no), :content => aa_case_form.c_text_field(:no, :readonly => 'readonly') %>
+              <%= render "shared/column", :name => (aa_case_form.label :connected_at) , :content => aa_case_form.c_text_field(:connected_at, :value => (@aa_rescue.aa_case.connected_at.strftime('%Y-%m-%d %H:%M:%S') unless @aa_rescue.aa_case.connected_at.nil?), :readonly => 'readonly') %>
+              <%= render "shared/column", :name => (aa_case_form.label :creater_no), :content => aa_case_form.c_text_field(:creater_no, :readonly => 'readonly') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "业务来源", :content => aa_case_form.select(:client_service_name, current_user.user_handle_client_services.enabled.pluck(:name), {}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "数据来源", :content => aa_case_form.c_text_field(:data_source, :readonly => "readonly") %>
+              <%= render "shared/column", :name => "外部单号", :content => aa_case_form.c_text_field(:out_source_no, :readonly => 'readonly') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "会员号",  :content => aa_case_form.c_text_field(:customer_no) %>
+              <%= render "shared/column", :name => "会员姓名", :content => aa_case_form.c_text_field(:customer_name) %>
+              <label class="control-label col-md-1">会员电话</label>
+              <div class="col-md-3">
+                <div class="input-group">
+                  <%= aa_case_form.c_text_field(:customer_mobile) %>
+                  <span class="input-group-addon">
+                    <a href="">
+                    </a>
+                    <%= link_to aa_cases_path(customer_mobile: @aa_rescue.aa_case.customer_mobile, from_aa_case_id: @aa_rescue.aa_case.id), id: :history_by_phone, target: :_blank, data: { remote_url: ajax_aa_cases_history_count_by_phone_path(from_aa_case_id: @aa_rescue.aa_case.id) } do %>
+                    <span id="badge_customer_mobile" class="badge badge-default">?</span>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label col-md-1">车牌号</label>
+              <div class="col-md-3">
+                <div class="input-group">
+                  <%= aa_case_form.c_text_field(:car_license_no) %>
+                  <span class="input-group-addon">
+                    <%= link_to aa_cases_path(car_license_no: @aa_rescue.aa_case.car_license_no, from_aa_case_id: @aa_rescue.aa_case.id), id: :history_by_license_no, target: :_blank, data: { remote_url: ajax_aa_cases_history_count_by_license_no_path(from_aa_case_id: @aa_rescue.aa_case.id) } do %>
+                    <span id="badge_car_license_no" class="badge badge-default">?</span>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+              <label class="control-label col-md-1">VIN</label>
+              <div class="col-md-3">
+                <div class="input-group">
+                  <%= aa_case_form.c_text_field(:car_vin) %>
+                  <span class="input-group-addon">
+                    <%= link_to aa_cases_path(car_vin: @aa_rescue.aa_case.car_vin, from_aa_case_id: @aa_rescue.aa_case.id), id: :history_by_car_vin, target: :_blank, data: { remote_url: ajax_aa_cases_history_count_by_car_vin_path(from_aa_case_id: @aa_rescue.aa_case.id) } do %>
+                    <span id="badge_car_vin" class="badge badge-default">?</span>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+             
+              <%= render "shared/column", :name => "车辆型号", :content => aa_case_form.c_text_field(:car_model) %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "车辆颜色", :content => aa_case_form.c_text_field(:car_color) %>
+              <%= render "shared/column", :name => "结算对象", :content => aa_case_form.c_text_field(:customer_account) %>
+              
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">补充信息</label>
+              <div class="col-md-11">
+                <%= aa_case_form.text_area(:memo, :class => "form-control", :readonly => "") %>
+              </div>
+            </div>
+
+            <h4 class="form-section">调派信息</h4>
+            <div class="form-group">
+              <%= render "shared/column", :name => (f.label :created_at), :content => f.c_text_field(:created_at, :value => @aa_rescue.created_at.strftime('%Y-%m-%d %H:%M:%S'), :readonly => 'readonly') %>
+              <%= render "shared/column", :name => (aa_case_form.label :owner_no), :content => aa_case_form.c_text_field(:owner_no, :readonly => 'readonly') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => (aa_case_form.label :rescue_type), :content => aa_case_form.select(:rescue_type, OPTIONS['rescue_type_actual'].values, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "救援原因", :content => aa_case_form.select(:rescue_reason, OPTIONS['rescue_reason'].values, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "预约时间", :content => aa_case_form.c_datetime_field(:appointment_at) %>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-1">说明</label>
+              <div class="col-md-11">
+                <%= f.text_area(:memo, :class => "form-control") %>
+              </div>
+            </div>
+             <div class="form-group">
+              <label class="control-label col-md-1">故障地点</label>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:from_province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:from_city, District.cities(@aa_rescue.aa_case.from_province), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:from_region, District.regions(@aa_rescue.aa_case.from_province, @aa_rescue.aa_case.from_city), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.c_text_field(:from_details) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.c_text_field(:from_coordinate_address) %>
+              </div>
+              <div class="col-md-1">
+                <%=aa_case_form.hidden_field(:from_longitude)%>
+                <%=aa_case_form.hidden_field(:from_latitude)%>
+                <a id="show_from" class="btn default">位置</a>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-1">拖至地点</label>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:to_province, District.provinces, {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:to_city, District.cities(@aa_rescue.aa_case.to_province), {}, { :class => "form-control select2me" }) %>
+              </div>
+              <div class="col-md-2">
+                <%= aa_case_form.select(:to_region, District.regions(@aa_rescue.aa_case.to_province, @aa_rescue.aa_case.to_city), {}, { :class=>"form-control select2me" }) %>
+              </div>
+              <div class="col-md-4">
+                <%= aa_case_form.c_text_field(:to_details) %>
+              </div>
+              <div class="col-md-1">
+                <a id="show_to" class="btn default">位置</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "调派供应商", :content => f.c_text_field(:aa_vendor_id) %>
+              <label class="control-label col-md-1">参考供应商</label>
+              <div class="col-md-3">
+                <select class="form-control select2me" id="refer_aa_vendor" name="refer_aa_vendor" tabindex='-1'>
+                <option></option>
+                <% AaVendor.vendors_by_region(@aa_rescue.aa_case.from_province, @aa_rescue.aa_case.from_city, @aa_rescue.aa_case.from_region).each do |aa_vendor_model| %>
+                  <option value="<%=aa_vendor_model.id%>"><%=aa_vendor_model.name%>(<%=aa_vendor_model.vendor_level(@aa_rescue.aa_case.from_province, @aa_rescue.aa_case.from_city, @aa_rescue.aa_case.from_region,@aa_rescue.aa_case.rescue_type)%>)</option>
+                <% end %>
+                </select>
+              </div>
+              <%= render "shared/column", :name => "实际供应商", :content => f.c_text_field(:aa_vendor_name) %>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">供应商救援电话</label>
+              <div class="col-md-3">
+                <input type="text" id='help_telephone' readonly="" class='form-control' value="<%=@aa_rescue.aa_vendor.get_help_telephone(@aa_rescue.aa_case.from_province,@aa_rescue.aa_case.from_city,@aa_rescue.aa_case.from_region) if @aa_rescue.aa_vendor%>"/>
+              </div>
+              
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "施救人", :content => f.collection_select(:aa_worker_id,(@aa_rescue.aa_vendor ? @aa_rescue.can_deployed_aa_workers  : Array.new),:id,:name, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "实际施救人", :content => f.c_text_field(:aa_worker_name) %>
+              <%= render "shared/column", :name => "施救人电话", :content => f.c_text_field(:aa_worker_phone) %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "施救拍照手机", :content => f.c_text_field(:photo_phone) %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "施救车辆", :content => f.collection_select(:aa_trailer_id,(@aa_rescue.aa_vendor ? @aa_rescue.aa_vendor.aa_trailers  : Array.new),:id,:license_no, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              <%= render "shared/column", :name => "调度车牌号", :content => f.c_text_field(:aa_trailer_license_no) %>
+              <label class="control-label col-md-1"></label>
+              <div class="col-md-3">
+                <a id="show_tracking" class="btn default" name="<%= tracking_aa_rescue_path(@aa_rescue) %>">救援车行驶路线</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "回拨时间", :content => f.c_datetime_field(:contacted_at, :readonly => '') %>
+              <%= render "shared/column", :name => "调派成功", :content => f.c_datetime_field(:dispatched_at, :readonly => '') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "预计到达", :content => f.c_datetime_field(:plan_arrive_at, :readonly => '') %>
+              <%= render "shared/column", :name => "实际到达", :content => f.c_datetime_field(:arrived_at, :readonly => '') %>
+              <%= render "shared/column", :name => "实际完成", :content => f.c_datetime_field(:completed_at, :readonly => '') %>
+            </div>
+            <div class="form-group">
+              <%= render "shared/column", :name => "取消时间", :content => f.c_datetime_field(:canceled_at, :readonly => '') %>
+              <label class="control-label col-md-1">取消原因</label>
+              <div class="col-md-3">
+                <%= f.select(:cancel_reason, OPTIONS["rescue_cancel_reason"].values, {:include_blank => true}, { :class => "form-control select2me" }) %>
+              </div>
+              
+            </div>
+             <div class="form-group">
+              <label class="control-label col-md-1">到达里程</label>
+              <div class="col-md-2">
+                <% if !@aa_rescue.accounting_job.nil? %>
+                  <%= f.c_text_field(:distance_arrive,:readonly =>'') %>
+                <% else %>
+                  <%= f.c_text_field(:distance_arrive) %>
+                <% end %>
+              </div>
+              <label class="control-label col-md-1">拖车里程</label>
+              <div class="col-md-2">
+                <% if !@aa_rescue.accounting_job.nil? %>
+                  <%= f.c_text_field(:distance_drag,:readonly =>'') %>
+                <% else %>
+                  <%= f.c_text_field(:distance_drag) %>
+                <% end %>
+              </div>
+              <label class="control-label col-md-1">空驶里程</label>
+              <div class="col-md-2">
+                <% if !@aa_rescue.accounting_job.nil? %>
+                  <%= f.c_text_field(:distance_empty_run,:readonly =>'') %>
+                <% else %>
+                  <%= f.c_text_field(:distance_empty_run) %>
+                <% end %>
+              </div>
+              <label class="control-label col-md-1">返回里程</label>
+              <div class="col-md-2">
+                <% if !@aa_rescue.accounting_job.nil? %>
+                  <%= f.c_text_field(:distance_back,:readonly =>'') %>
+                <% else %>
+                  <%= f.c_text_field(:distance_back) %>
+                <% end %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">到达里程图测</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:map_range_arrive) %>
+              </div>
+              <label class="control-label col-md-1">拖车里程图测</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:map_range_drag) %>
+              </div>
+              <label class="control-label col-md-1">空驶里程图测</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:map_range_empty_run) %>
+              </div>
+              <label class="control-label col-md-1">返回里程图测</label>
+              <div class="col-md-2">
+                <%= f.c_text_field(:map_range_back) %>
+              </div>
+         
+            </div>
+            <div class="form-group">
+                <% if !@aa_rescue.accounting_job.nil? %>
+                  <%= render "shared/column", :name => "救援费用", :content => f.c_text_field(:fee,:readonly =>'') %>
+                  <%= render "shared/column", :name => "附加费", :content => f.c_text_field(:addition_fee,:readonly =>'') %>
+                  <%= render "shared/column", :name => "实际费用", :content => f.c_text_field(:other_fee,:readonly =>'') %>
+                <% else %>
+                  <%= render "shared/column", :name => "救援费用", :content => f.c_text_field(:fee) %>
+                  <%= render "shared/column", :name => "附加费", :content => f.c_text_field(:addition_fee) %>
+                  <%= render "shared/column", :name => "实际费用", :content => f.c_text_field(:other_fee) %>
+                <% end %>
+            </div>
+            <div class="form-group">
+            <%= render "shared/column", :name => "满意度", :content => f.select(:satisfaction, OPTIONS['satisfactions'], {:include_blank => true}, { :class => "form-control select2me"}) %>
+            </div>
+            <% end %>
+            <h4 class="form-section">工作日志</h4>
+
+            <%= f.fields_for :aa_case_logs,  @aa_rescue.errors.count > 0 ? @aa_rescue.aa_case_logs.last : @aa_rescue.aa_case_logs.build  do |l| %>
+            <div class="form-group">
+              <%= render "shared/column", :name => "类型", :content => l.select(:log_type, OPTIONS['log_type'], {}, { :class=>"form-control select2me" }) %>
+              <%= render "shared/column", :name => "工时(分)", :content => l.c_text_field(:labor) %>
+              <%= render "shared/column", :name => "发生时间", :content => l.c_datetime_field(:log_at) %>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-1">内容</label>
+              <div class="col-md-11">
+                <%= l.text_area(:content, :class => "form-control") %>
+              </div>
+            </div>
+            <% end %>
+          </div>
+          <div class="form-actions right">
+            <button type="submit" class="btn">保存</button>
+            <% if can? :assign, AaCase %>
+            <%= link_to "分配", "#assign", :class => "btn default", :data => { :toggle => "modal" }, :onclick => "$('#assign_form').attr('action', '#{assign_aa_case_path(@aa_rescue.aa_case)}'); fillAssignOwners(#{@aa_rescue.aa_case.id}, $('#user_id'));" %>
+            <% end %>
+            <% if can? :send_sms, AaRescue %>
+              <!-- <input type="text" name="sms_phone" id='sms_phone'  placeholder='电话' />
+              <%=link_to '发送短信',send_sms_aa_rescue_path(@aa_rescue), :id => "sms_send", :class => "btn default" %> -->
+            <% end %>
+            <% if can? :photo, AaCase %>
+              <%=link_to '回传照片',send_photo_aa_rescue_path(@aa_rescue), :class => "btn default" %>
+            <% end %>
+            <% if @aa_rescue.aa_case.data_source == "平安接口" %>
+            <%= link_to '平安日志', pingan_api_log_aa_case_path(@aa_rescue.aa_case), :class => "btn default", target: @aa_rescue.no %>
+            <% end %>
+            <% if can? :manage,AccountingJob %>
+            <% if @aa_rescue.is_create_accounting_job %>
+               <%= link_to "结算对账", "#accounting", :class => "btn default", :data => { :toggle => "modal" }, :onclick => "$('#accounting_form').attr('action', '#{fast_create_accounting_job_path(@aa_rescue)}');" %>
+            <% end %>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="modal fade" id="ajax" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+          <img src="/assets/img/ajax-modal-loading.gif" alt="" class="loading">
+        </div>
+        <h4 class="form-section">工作日志</h4>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+          <tr>
+            <th>创建于</th>
+            <th>记录时间</th>
+            <th>操作者</th>
+            <th>操作者工号</th>
+            <th>类型</th>
+            <th>工时</th>
+            <th>内容</th>
+          </tr>
+          <% @aa_rescue.aa_case_logs.order(log_at: :desc).each do |log| %>
+          <tr>
+            <td width="15%"><%= log.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+            <td width="15%"><%= log.log_at.strftime('%Y-%m-%d %H:%M:%S') if log.log_at%></td>
+            <td width="5%"><%= log.logger.name %></td>
+            <td width="5%"><%= log.logger.no %></td>
+            <td width="10%"><%= log.log_type %></td>
+            <td width="5%"><%= log.labor %>分</td>
+            <td width="45%"><%= log.content %></td>
+          </tr>
+          <% end %>
+          </table>
+        </div>
+        <%= render 'worker_job',:item => @aa_rescue, :title => '救援工服务单' %>
+        <%= render 'vsalad_media',:item => @aa_rescue.aa_case, :title => '用户上传文件' %>
+        <%= render 'wechat_media',:item => @aa_rescue.worker_jobs, :title => '救援工上传文件' %>
+        <%= render 'layouts/version',:item => @aa_rescue, :title => '调派信息' %>
+        <%= render 'layouts/version',:item => @aa_rescue.aa_case, :title => '基本信息' %>
+        <div style="height:20px;"></div>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<div class="row">
+  <div class="modal fade" id="assign"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "aa_cases/assign" %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="wait_cancel"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">警告</h4>
+        </div>
+        <div class="modal-body">
+          <div class="portlet">
+            <div class="portlet-body form">
+                <div class="form-body">
+                  <h1><span style="color:red;font-size:80px" >请注意,此任务状态为[等待取消]</span></h1>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="accounting"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "aa_cases/accounting" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "aa_rescues" %> 
+<% end %>

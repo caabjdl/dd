@@ -1,0 +1,135 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>结算对账列表</div>
+        <div class="actions">
+        </div>
+      </div>
+      <div class="portlet-body">
+      <%= form_tag verify_by_finance_accounting_jobs_path, :method => 'get',:id=>'form' do %>
+        <div class="dataTables_wrapper form-inline" role="grid">
+         <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+                <%= link_to "高级查询", "#query", :class => "btn default", :data => { :toggle => "modal" } %>
+                <%= submit_tag '同意', :name => nil, :id => "create_btn", :class => 'btn default' %>
+                <input type="hidden" id="ids" />
+                <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token %>" />
+
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table_accounting">
+              <thead>
+                <tr>
+                  <th class="table-checkbox "><input type="checkbox" class="group-checkable" data-set="#table_accounting .checkboxes" />
+                  <th>状态</th>
+                  <th>供应商</th>
+                  <th>服务号</th>
+                  <th>服务项目</th>
+                  <th>客户姓名</th>
+                  <th>客户电话</th>
+                  <th>业务来源</th>
+                  <th>故障地址</th>
+                  <th>拖至地址</th>
+                  <th>类型</th>
+                  <th>到达</th>
+                  <th>拖车</th>
+                  <th>返回</th>
+                  <th>总</th>
+                  <th>空驶</th>
+                  <th>救援费用</th>
+                  <th>附加费</th>
+                  <th>结算金额</th>
+                  <th>车牌</th>
+                  <th>车型</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @accounting_jobs.each do |f| %>
+                  <tr>
+                    <td rowspan="2"><input type="checkbox" class="checkboxes" value="<%= f.id %>" /></td>
+                    <td rowspan="2"><%= f.status %></td>
+                    <%=omission_td_rowspan(6,f.aa_vendor.name)%>
+                    <td rowspan="2"><%= f.aa_case.no if f.aa_vendor  %></td>
+                    <td rowspan="2"><%= f.aa_case.rescue_type if f.aa_case%></td>
+                    <td rowspan="2"><%= f.aa_case.customer_name if f.aa_case%></td>
+                    <td rowspan="2"><%= f.aa_case.customer_mobile if f.aa_case%></td>
+                    <td rowspan="2"><%= f.aa_case.client_service_name if f.aa_case%></td>
+                    <%=omission_td_rowspan(6,f.aa_case.from_details)%>
+                    <%=omission_td_rowspan(6,f.aa_case.to_details)%>
+                    <td>结算审核</td>
+                    <td><input type="text" id="confirm_distance_arrive_<%=f.id%>" name="accountings[<%=f.id%>][confirm_distance_arrive]" style="width:60px" value="<%= f.confirm_distance_arrive %>" onchange="cul_total(<%=f.id%>);"> </td>
+                    <td><input type="text" id="confirm_distance_drag_<%=f.id%>" name="accountings[<%=f.id%>][confirm_distance_drag]" style="width:60px" value="<%= f.confirm_distance_drag %>" onchange="cul_total(<%=f.id%>);"></td>
+                    <td><input type="text" id="confirm_distance_back_<%=f.id%>" name="accountings[<%=f.id%>][confirm_distance_back]" style="width:60px" value="<%= f.confirm_distance_back %>" onchange="cul_total(<%=f.id%>);"></td>
+                    <td><span id='total_<%=f.id%>'><%= f.distance_arrive.to_f+f.distance_drag.to_f+f.distance_back.to_f %></span></td>
+                    <td><input type="text" name="accountings[<%=f.id%>][confirm_distance_empty_run]" style="width:60px" value="<%= f.confirm_distance_empty_run %>"></td>
+                    <td><input type="text" id="confirm_caa_fee_<%=f.id%>" name="accountings[<%=f.id%>][confirm_caa_fee]" style="width:60px" value="<%= f.confirm_caa_fee %>" onchange="cul_fee(<%=f.id%>);"></td>
+                    <td><input type="text" id="confirm_addition_fee_<%=f.id%>" name="accountings[<%=f.id%>][confirm_addition_fee]" style="width:60px" value="<%= f.confirm_addition_fee %>" onchange="cul_fee(<%=f.id%>);"></td>
+                    <td><input type="text" id="confirm_fee_<%=f.id%>" name="accountings[<%=f.id%>][confirm_fee]" style="width:60px" value="<%= f.confirm_fee %>"></td>
+                    <%=omission_td_rowspan(6,f.aa_case.car_license_no)%>
+                    <%=omission_td_rowspan(6,f.aa_case.car_model)%>
+                    <td rowspan="2"><%= link_to '编辑', edit_accounting_job_path(f) %>
+                    <% if f.aa_rescue %><%= link_to '查看明细', edit_aa_rescue_path(f.aa_rescue.id),target: f.id %><% end%>
+                    <% if f.status == '待结算部核算' %>
+                    <%= link_to '同意', agree_accounting_job_path(f),:method => 'post' %>
+                    <%= link_to '不同意', verify_by_finance_accounting_jobs_path, :method => 'post',:id=>"unagree","data-id" => f.id %>
+                    <% end %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <% str = if ["地库拖车","拖车牵引"].include?(f.aa_case.rescue_type)
+                          "拖车结算<br/>起步价:#{f.aa_vendor.trail_base_fare}<br/>含公里数:#{f.aa_vendor.trail_include_kilometers}<br/>单价:#{f.aa_vendor.trail_unit_price}<br/>"
+                       else
+                          "救援结算<br/>起步价:#{f.aa_vendor.rescue_base_fare}<br/>含公里数:#{f.aa_vendor.rescue_include_kilometers}<br/>单价:#{f.aa_vendor.rescue_unit_price}<br/>"
+                       end
+                       fixed_price_region = if f.type == "非一口价"
+                          "一口价区域<br/>#{f.aa_vendor.aa_vendor_region_fixed_price.gsub(',',"<br/>") }"
+                        else
+                          ""
+                        end
+                     %>
+
+                    <%=omission_td(7,"供应商议价["+f.type+"]<br/>"+str + fixed_price_region)%>
+               
+                    <td><%= f.distance_arrive %></td>
+                    <td><%= f.distance_drag %></td>
+                    <td><%= f.distance_back %></td>
+                    <td><%= f.distance_arrive.to_f+f.distance_drag.to_f+f.distance_back.to_f %></td>
+                    <td><%= f.distance_empty_run %></td>
+                    <td><%= f.caa_fee %></td>
+                    <td><%= f.addition_fee %></td>
+                    <td><%= f.fee %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <%= paginate @accounting_jobs %> 
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "verify_by_finance" %> 
+<% end %>
+
+<div class="row">
+  <div class="modal fade" id="query"  role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-wide">
+      <div class="modal-content">
+        <%= render "/accounting_jobs/query", :path => verify_by_finance_accounting_jobs_path %>
+      </div>
+    </div>
+  </div>
+</div>
+

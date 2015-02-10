@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+  <h4 class="modal-title">分配调度</h4>
+</div>
+<%= form_tag "", method: :post, class: "form-horizontal", role: "form", id: "assign_form" do %>
+<div class="modal-body">
+  <div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-body">
+          <div class="form-group">
+            <label  class="col-md-2 control-label">调度人员</label>
+            <div class="col-md-10">
+              <select id="user_id" name="user_id" class="form-control select2me"></select>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="btn">分配</button>
+  <button type="button" data-dismiss="modal" class="btn default">关闭</button>
+</div>
+<% end %>

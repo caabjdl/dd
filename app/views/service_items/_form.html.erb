@@ -1,0 +1,29 @@
+<%= render "shared/notify_message" %>
+<%= form_for(@service_item, :html => { :class => "form-horizontal",'data-new' => @service_item.new_record? }, :multipart=> true) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">基本信息</h4>
+    <div class="form-group">
+      <label class="control-label col-md-1">服务类别</label>
+      <div class="col-md-3">
+        <%= f.select(:category, OPTIONS["service_item_category"], {}, { :class=>"form-control select2me" }) %>
+      </div>
+      <%= render "shared/column", :name => "项目名称", :content => f.c_text_field(:name) %>
+      <%= render "shared/column", :name => "编号", :content => f.c_text_field(:no) %>
+    </div>
+    <div class="form-group">
+    <label class="control-label col-md-1">发短信</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:can_send_sms, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+  </div>
+  </div>
+  
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>    

@@ -1,0 +1,1 @@
+json.extract! @aa_worker, :mobile

@@ -1,0 +1,107 @@
+<ul class="page-sidebar-menu">
+  <li class="start active ">
+    <a href="/">
+      <i class="fa fa-home"></i> 
+      <span class="title">工作台</span>
+      <span class="selected"></span>
+    </a>
+  </li>
+  <% if can? :use, AaCase %>
+  <li class="">
+    <a href="javascript:;">
+      <i class="fa fa-truck"></i>
+      <span class="title">任务请求</span>
+      <span class="arrow "></span>
+    </a>
+    <ul class="sub-menu">
+      <li>
+        <% if can? :index, AaCase  %>
+        <%= link_to "所有任务", aa_cases_path %>
+        <% end %>
+        <% if can? :untreated, AaCase %>
+        <%= link_to "未处理任务", untreated_aa_cases_path %>
+        <% end %>
+        <% if can? :unhandle, AaCase %>
+          <%= link_to "未分配任务", unhandle_aa_cases_path %>
+        <% end %>
+        <% if can? :handle, AaCase %>
+          <%= link_to "已分配的任务", handle_aa_cases_path%>
+        <% end %>
+        <% if can? :mine, AaCase %>
+        <%= link_to "我的任务", mine_aa_cases_path %>
+        <% end %>
+        <% if can? :mine_all, AaCase %>
+        <%= link_to "我的所有任务", mine_all_aa_cases_path %>
+        <% end %>
+        <% if can? :review, AaCase %>
+        <%= link_to "所有任务(平安)", review_aa_cases_path %>
+        <% end %>
+      </li>
+    </ul>
+  </li>
+  <% end %>
+  <% if can? :manage, Customer %>
+    <li class="">
+      <a href="javascript:;">
+        <i class="fa fa-truck"></i>
+        <span class="title">客户信息</span>
+        <span class="arrow "></span>
+      </a>
+      <ul class="sub-menu">
+        <li><%= link_to "车主信息", customers_path %></li>
+      </ul>
+    </li>
+  <% end %>
+  <% if can? :index, AccountingJob  %>
+  <li >
+    <a href="javascript:;">
+      <i class="fa fa-truck"></i>
+      <span class="title">结算对账</span>
+      <span class="arrow "></span>
+    </a>
+    <ul class="sub-menu">
+      <li>
+       <% if can? :index, ExportFile %>
+        <%= link_to "财务导出", export_files_path %>
+        <% end %>
+        <% if can? :accountings, AaCase %>
+        <%= link_to "无供应商任务", accounting_no_vendor_aa_cases_path %>
+        <%= link_to "批量结算对账(供应商一致)", accounting_sure_aa_cases_path %>
+        <%= link_to "批量结算对账(供应商不一致)", accounting_aa_cases_path %>
+        <% end %>
+        <% if can? :index, AccountingJob %>
+        <%= link_to "结算对账单(待结算部核算)", verify_by_finance_accounting_jobs_path %>
+        <%= link_to "结算对账单(待供应商核算)", verify_by_vendor_accounting_jobs_path %>
+        <%= link_to "结算对账单(已完成)", accounting_jobs_path %>
+        <% end %>
+        <% if can? :manage, :finance_excel_revise %>
+        <a href="/tools/finance_excel_revises/index">数据处理</a>
+        <% end %>
+      </li>
+    </ul>
+  </li>
+  <% end %>
+  <% if can? :manage, Admin %>
+  <li class="last">
+    <a href="javascript:;">
+      <i class="fa fa-gear"></i>
+      <span class="title">系统</span>
+      <span class="arrow "></span>
+    </a>
+    <ul class="sub-menu">
+      <li><%= link_to "账户", admin_users_path %></li>
+      <li><%= link_to "在线账户", online_admin_users_path %></li>
+      <li><%= link_to "自动分配", admin_auto_assign_stats_path %></li>
+      <li><%= link_to "行政区域", districts_path %></li>
+      <li><%= link_to "接口配置", admin_client_api_profiles_path %></li>
+      <li><%= link_to "客户信息", clients_path %></li>
+      <li><%= link_to "业务来源", client_services_path %></li>
+      <li><%= link_to "结算对象", settlement_institutions_path %></li>
+      <li><%= link_to "服务项目", service_items_path %></li>
+      <li><%= link_to "访问日志", visit_histories_path %></li>
+      <li><%= link_to "微信日志", wechat_messages_path %></li>
+    </ul>
+  </li>
+  <% end %>
+
+</ul>

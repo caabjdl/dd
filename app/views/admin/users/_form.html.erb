@@ -1,0 +1,131 @@
+<%= form_for([:admin, @user], :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="form-body">
+    <%= f.error_messages %>
+    <h4 class="form-section">基本信息</h4>
+    <div class="form-group">
+      <%= render "shared/column", :name => "账号(邮箱)", :content =>  f.email_field(:email, :autofocus => true, :class => 'form-control') %>
+      <%= render "shared/column", :name => "姓名", :content =>  f.c_text_field(:name) %>
+      <%= render "shared/column", :name => "工号", :content =>  f.c_text_field(:no) %>
+    </div>
+    <div class="form-group">
+      <%= render "shared/column", :name => "部门", :content =>  f.select(:department, DEPARTMENTSPROFILE["departments"], {}, :class => 'form-control select2me') %>
+      <%= render "shared/column", :name => "上级", :content => f.collection_select(:manager_id, User.all, :id, :name,{:include_blank => true},{ :class => 'form-control select2me'}) %>
+      <%= render "shared/column", :name => "角色", :content => f.select(:role, OPTIONS["system_roles"], {}, :class => 'form-control select2me') %>
+    </div>
+    <div class="form-group">
+      <%= render "shared/column", :name => "密码", :content => f.password_field(:password, :class => 'form-control') %>
+      <%= render "shared/column", :name => "确认密码", :content => f.password_field(:password_confirmation, :class => 'form-control') %>
+      <%= render "shared/column", :name => "账户类型", :content => f.select(:account_type, OPTIONS["account_type"], {}, :class => 'form-control select2me') %>
+    </div>
+    <div class="form-group">
+      <%= render "shared/column", :name => "分配间隔", :content =>  f.c_text_field(:auto_assign_interval) %>
+      <label class="control-label col-md-1">自动分配</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= f.check_box(:can_auto_assign_to, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+      <label class="control-label col-md-1">禁用账户</label>
+      <div class="col-md-1">
+        <div class="checkbox-list">
+          <label class="checkbox-inline">
+            <%= check_box_tag(:locked, "1", @user.access_locked?, :class => "form-control" ) %>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-1">业务来源</label>
+      <div class="col-md-10">
+        <% @user.user_handle_client_services.each do |client_service| %>
+          <div class="col-md-2">
+            <input type="checkbox" checked=""  class="form-control" disabled=""><%=client_service.name%>
+          </div>
+          <div class="col-md-3">
+            <% @user.settlement_institutions.where(client_service_id: client_service.id).each do |settlement|%>
+              <%=settlement.name %>,
+            <% end %>
+          </div>
+          <div class="col-md-1">
+            <%= link_to "结算对象", "#settlement", :data => { :toggle => "modal" }, :onclick => "fillSettlements(#{client_service.id}, $('#settlements'),#{@user.settlement_institutions.where(client_service_id: client_service.id).pluck(:id)},#{@user.id});" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md-1">
+        <%= link_to "编辑来源", "#client_service", :data => { :toggle => "modal" } %>
+      </div>
+    </div>
+
+    <h4 class="form-section col-md-12">调度区域</h4>
+    <div class="table-responsive">
+      <table id="table_districts" class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>省</th>
+            <th>市</th>
+            <th>区</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= f.fields_for :user_handle_districts do |d| %>
+            <%= render "user_handle_district_fields", :f => d %>
+          <% end %>
+          <tr>
+            <td colspan="10"><%= link_to_add_fields "添加", f, :user_handle_districts %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h4 class="form-section col-md-12">调度供应商</h4>
+    <div class="table-responsive">
+      <table id="table_aa_vendors" class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>名称</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.user_handle_aa_vendors.each do |item| %>
+          <%= render :partial => "user_handle_aa_vendor", :locals => { :aa_vendor => item } %>
+          <% end %>
+          <tr>
+            <td colspan="10">
+            <%= link_to("添加", '#', { :class => "add_row btn default btn-xs black pull-right", :data => { :fields => render(:partial => "user_handle_aa_vendor", :locals => { :aa_vendor => nil }).gsub("\n", "")}}) %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-actions right">
+    <button type="submit" class="btn">保存</button>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="modal fade" id="client_service"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%=render 'client_services'%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="modal fade" id="settlement"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%=render 'settlements'%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "users" %> 
+<% end %>

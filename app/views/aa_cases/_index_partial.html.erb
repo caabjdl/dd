@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+
+        <div class="caption"><i class="fa fa-cogs"></i><%=title%></div>
+        <div class="actions">
+          <% if can? :wait_pingan, AaCase %>
+          <%= link_to "待平安系统确认", wait_pingan_aa_cases_path, :class => "btn default", :target => "wait_pingan_aa_cases" %>
+          <% end %>
+          <% if can? :mine, AaCase %>
+          <%= link_to "我的任务", mine_aa_cases_path, :class => "btn default", :target => "mine_aa_cases" %>
+          <% end %>
+          <% if can? :mine_all, AaCase %>
+          <%= link_to "我的所有任务", mine_all_aa_cases_path, :class => "btn default", :target => "mine_aa_cases" %>
+          <% end %>
+          <% if can? :untreated, AaCase %>
+          <%= link_to "未处理的任务", untreated_aa_cases_path, :class => "btn default", :target => "untreated_aa_cases" %>
+          <% end %>
+          <% if can? :unhandle, AaCase %>
+          <%= link_to "未分配的任务", unhandle_aa_cases_path, :class => "btn default", :target => "unhandle_aa_cases" %>
+          <% end %>
+          <% if can? :handle, AaCase %>
+          <%= link_to "已分配的任务", handle_aa_cases_path, :class => "btn default", :target => "handle_aa_cases" %>
+          <% end %>
+          <% if can? :new, AaCase %>
+          <%= link_to "故障接线", new_aa_case_path, :class => "btn default", :target => "new_aa_case" %>
+          <% end %>
+          <% if can? :query_pingan_salvation, AaCase %>
+          <%= link_to "接平安单", query_pingan_salvation_aa_cases_path, :class => "btn default", :target => "query_pingan_salvation" %>
+          <% end %>
+          <% if can? :export, AaCase %>
+          <%= link_to "导出", export_aa_cases_path(params), :class => "btn default" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag "查询", :name => nil, :class => 'btn' %>
+                <%= link_to "高级查询", "#query", :class => "btn default", :data => { :toggle => "modal" } %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <%= dynamic_table(@aa_cases) %>
+            <%= paginate @aa_cases %>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="assign"  role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= render "/aa_cases/assign" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="modal fade" id="query"  role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-wide">
+      <div class="modal-content">
+        <%= render "/aa_cases/query", :path => path %>
+      </div>
+    </div>
+  </div>
+</div>

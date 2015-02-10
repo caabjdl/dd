@@ -1,0 +1,58 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>API授权列表</div>
+        <div class="actions">
+          <%= link_to "添加", new_admin_client_api_profile_path, :class => "btn default" %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag admin_client_api_profiles_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>客户名称</th>
+                  <th>数据源名称</th>
+                  <th>CID</th>
+                  <th>密钥</th>
+                  <th>状态</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @client_api_profiles.each do |f| %>
+                <tr>
+                  <td><%= f.client.name unless f.client.nil? %></td>
+                  <td><%= f.client_service_name %></td>
+                  <td><%= f.cid %></td>
+                  <td><%= f.secret %></td>
+                  <th><%= f.disabled ? "已禁用" : "已启用" %></th>
+                  <td>
+                    <%= link_to '编辑', edit_admin_client_api_profile_path(f) %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @client_api_profiles %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>区域列表</div>
+        <div class="actions">
+          <%= link_to "添加", new_district_path, :class => "btn default" %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag districts_path, :method => 'get', :id => "form_districts" do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+                <%= submit_tag '开启自动分配', :name => nil, :id => "enable_auto_assign", :class => 'btn default' %>
+                <%= submit_tag '关闭自动分配', :name => nil, :id => "disable_auto_assign", :class => 'btn default' %>
+                <input type="hidden" id="type" />
+                <input type="hidden" id="ids" />
+                <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token %>" />
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table_districts">
+              <thead>
+                <tr>
+                  <th class="table-checkbox col-md-1"><input type="checkbox" class="group-checkable" data-set="#table_districts .checkboxes" />
+                  <th>省</th>
+                  <th>市</th>
+                  <th>区</th>
+                  <th>自动分配</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @districts.each do |f| %>
+                <tr>
+                  <td><input type="checkbox" class="checkboxes" value="<%= f.id %>" /></td>
+                  <td><%= f.province %></td>
+                  <td><%= f.city %></td>
+                  <td><%= f.region %></td>
+                  <td><%= f.can_auto_assign ? "分配" : "不分配" %></td>
+                  <td>
+                    <%= link_to '删除', district_path(f), :method => :delete, data: { :confirm => '您确认删除该行政区域吗?' }  %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @districts %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :page_scripts do %>
+  <%= javascript_include_tag "districts" %> 
+<% end %>

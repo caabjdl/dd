@@ -1,0 +1,62 @@
+<%= render "shared/notify_message" %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet box light-grey">
+      <div class="portlet-title">
+        <div class="caption"><i class="fa fa-cogs"></i>账号列表</div>
+        <div class="actions">
+          <%= link_to "添加", new_admin_user_path, :class => "btn default" %>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="dataTables_wrapper form-inline" role="grid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= form_tag admin_users_path, :method => 'get' do %>
+              <div class="dataTables_filter pull-left">
+                <label>
+                  关键字:<%= text_field_tag :search, params[:search], :class => "form-control input-small" %>
+                </label>
+                <%= submit_tag '查询', :name => nil, :class => 'btn' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>账号</th>
+                  <th>姓名</th>
+                  <th>部门</th>
+                  <th>角色</th>
+                  <th>上级</th>
+                  <th>是否启用</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |f| %>
+                <tr>
+                  <td><%= f.no %></td>
+                  <td><%= f.email %></td>
+                  <td><%= f.name %></td>
+                  <td><%= f.department %></td>
+                  <td><%= f.role %></td>
+                  <th><%= f.manager.name if f.manager%></th>
+                  <th><%= f.access_locked? ? "已禁用" : "已启用" %></th>
+                  <td>
+                    <%= link_to '编辑', edit_admin_user_path(f) %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <%= paginate @users %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

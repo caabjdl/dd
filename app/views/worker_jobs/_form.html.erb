@@ -1,0 +1,104 @@
+<div class="row-fluid">
+<div class="span12">
+<div class="portlet box blue ">
+<div class="portlet-title">
+  <div class="caption"><i class="icon-reorder"></i>worker_job</div>
+  <div class="tools">
+    <a href="javascript:;" class="collapse"></a>
+  </div>
+</div>
+
+<div class="portlet-body form form-horizontal">
+<%= form_for(@worker_job) do |f| %>
+  <% if @worker_job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@worker_job.errors.count, "error") %> prohibited this worker_job from being saved:</h2>
+
+      <ul>
+      <% @worker_job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="control-group">
+    <label class="control-label"> <%= f.label :owner_id %></label>
+    <div class="controls"><%= f.number_field :owner_id, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :customer_name %></label>
+    <div class="controls"><%= f.text_field :customer_name, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :customer_mobile %></label>
+    <div class="controls"><%= f.text_field :customer_mobile, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :car_license_no %></label>
+    <div class="controls"><%= f.text_field :car_license_no, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :car_vin %></label>
+    <div class="controls"><%= f.text_field :car_vin, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :car_model %></label>
+    <div class="controls"><%= f.text_field :car_model, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :car_color %></label>
+    <div class="controls"><%= f.text_field :car_color, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :rescue_type %></label>
+    <div class="controls"><%= f.text_field :rescue_type, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :rescue_reason %></label>
+    <div class="controls"><%= f.text_field :rescue_reason, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :from_province %></label>
+    <div class="controls"><%= f.text_field :from_province, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :from_city %></label>
+    <div class="controls"><%= f.text_field :from_city, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :from_region %></label>
+    <div class="controls"><%= f.text_field :from_region, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :from_details %></label>
+    <div class="controls"><%= f.text_field :from_details, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :to_province %></label>
+    <div class="controls"><%= f.text_field :to_province, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :to_city %></label>
+    <div class="controls"><%= f.text_field :to_city, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :to_region %></label>
+    <div class="controls"><%= f.text_field :to_region, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :to_details %></label>
+    <div class="controls"><%= f.text_field :to_details, :class => 'm-wrap' %></div>
+  </div>
+<div class="control-group">
+    <label class="control-label"> <%= f.label :aa_rescue_id %></label>
+    <div class="controls"><%= f.number_field :aa_rescue_id, :class => 'm-wrap' %></div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit 'Save', :class => 'btn blue' %>
+  </div>
+<% end %>
+</div>
+</div>
+</div>
+</div>

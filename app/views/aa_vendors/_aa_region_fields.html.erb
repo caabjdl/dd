@@ -1,0 +1,24 @@
+<tr>
+  <td><%= f.select(:province, District.provinces, {}, { :class => "form-control select2me model_province", :data => { :id => f.options[:child_index] } }) %></td>
+  <td><%= f.select(:city, District.cities(f.object.province), {}, { :class=>"form-control select2me model_city" }) %></td>
+  <td><%= f.select(:district, District.regions(f.object.province, f.object.city), {}, { :class=>"form-control select2me model_district" }) %></td>
+  <!-- <td><%= f.c_text_field(:details) %></td> -->
+  <td class="col-md-1"><%= f.c_text_field(:minutes_of_arrival) %></td>
+  <td><%= f.select(:support_level, OPTIONS["support_level"], {}, { :class => "form-control select2me" }) %></td>
+  <td><%= f.select(:car_level, OPTIONS["car_level"], {}, { :class => "form-control select2me" }) %></td>
+  <th><%= f.select(:difficult_situation_level, OPTIONS["difficult_situation_level"], {}, { :class => "form-control select2me" }) %></th>
+  <td class="col-md-2"><%= f.c_text_field(:telephone) %></td>
+  <td>
+      <%= f.collection_check_boxes(:service_item_ids, ServiceItem.all, :id, :name) do |item| %>
+      <!-- <div class="col-md-2"> -->
+      <%= item.check_box %><%= item.label %></br>
+      <!-- </div> -->
+      <% end %>
+  </td>
+  <td><%= f.c_text_field(:memo) %></td>
+  <td>
+    <%= f.hidden_field :_destroy %>
+    <a class="btn default btn-xs black remove_fields" href="#">删除</a>
+  </td>
+</tr>
+
